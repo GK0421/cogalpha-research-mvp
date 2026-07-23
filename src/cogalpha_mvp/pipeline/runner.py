@@ -298,6 +298,12 @@ class PipelineRunner:
             except Exception as e:
                 logger.error("  Failed to evaluate %s: %s", factor.factor_id, e)
 
+        # Save train metrics to CSV
+        if train_metrics:
+            pd.DataFrame(list(train_metrics.values())).to_csv(
+                str(train_dir / "train_metrics.csv"), index=False, encoding="utf-8-sig"
+            )
+
         logger.info("Evaluated %d factors", len(train_metrics))
         return train_metrics, factor_values
 
@@ -459,6 +465,18 @@ class PipelineRunner:
                     results[strategy] = result.to_dict()
                 except Exception as e:
                     logger.error("Backtest failed for %s: %s", strategy, e)
+
+        # Save portfolio results to CSV
+        portfolio_dir = self.output_dir / "portfolio"
+        portfolio_dir.mkdir(exist_ok=True)
+        if results:
+            pd.DataFrame(list(results.values())).to_csv(
+                str(portfolio_dir / "portfolio_results.csv"), index=False, encoding="utf-8-sig"
+            )
+
+        # Create charts directory (charts are embedded in HTML report)
+        charts_dir = self.output_dir / "charts"
+        charts_dir.mkdir(exist_ok=True)
 
         logger.info("Backtest complete: %d strategies", len(results))
         return results
