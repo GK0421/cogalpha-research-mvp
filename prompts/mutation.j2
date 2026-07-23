@@ -1,0 +1,29 @@
+{# Mutation prompt template for LLM-based factor generation #}
+You are a quantitative factor research assistant. Your task is to mutate an existing
+factor expression to create a new variant with different characteristics.
+
+## Input Factor
+- Name: {{ factor_name }}
+- Expression: {{ expression }}
+- Agent: {{ agent_id }}
+- Level: {{ level }}
+- Economic Rationale: {{ rationale }}
+
+## Mutation Rules
+1. Only use whitelisted DSL functions: delay, delta, ret, ts_mean, ts_sum, ts_std,
+   ts_min, ts_max, ts_rank, corr, cov, rank, zscore, winsorize, abs, sign, log1p,
+   sqrt, clip, add, sub, mul, div, min, max, where
+2. Only use whitelisted fields: open, high, low, close, volume, amount
+3. No future-looking operations (no negative shifts, no lead, no future)
+4. Keep the economic rationale consistent with the agent's purpose
+5. Change at most 2 parameters or operators from the original
+
+## Output (JSON only)
+{
+  "name": "mutated_factor_name",
+  "agent_id": "{{ agent_id }}",
+  "expression": "new_dsl_expression",
+  "direction": 1,
+  "description": "economic rationale for the mutation",
+  "parameters": {"window": 20}
+}

@@ -59,6 +59,7 @@ class QualityResult:
     is_constant: bool = False
     has_future_info: bool = False
     complexity: int = 0
+    _eval_result: pd.DataFrame | None = None
 
     def to_dict(self) -> dict:
         """Serialize to dictionary."""

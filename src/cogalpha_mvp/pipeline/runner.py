@@ -28,7 +28,7 @@ import pandas as pd
 
 from cogalpha_mvp.config import Config
 from cogalpha_mvp.data.adapters import SyntheticDataAdapter, create_snapshot_manifest
-from cogalpha_mvp.domain.data_contract import DataRequest, StandardMarketData
+from cogalpha_mvp.domain.data_contract import DataRequest, MarketDataAdapter, StandardMarketData
 from cogalpha_mvp.domain.sample_boundary import (
     LeakageGuard,
     OutOfSampleDataLoader,
@@ -170,7 +170,7 @@ class PipelineRunner:
         logger.info("Step 1: Loading data...")
 
         if use_synthetic or not data_path:
-            adapter = SyntheticDataAdapter()
+            adapter: MarketDataAdapter = SyntheticDataAdapter()
             request = DataRequest(
                 start_date=self.config.data.full_start,
                 end_date=self.config.data.full_end,

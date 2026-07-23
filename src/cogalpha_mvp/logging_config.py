@@ -11,7 +11,7 @@ def setup_logging(
     level: str = "INFO",
     log_file: str | Path | None = None,
     run_id: str = "",
-) -> logging.Logger:
+) -> logging.Logger | logging.LoggerAdapter[logging.Logger]:
     """Configure and return the root logger for the project.
 
     Args:
@@ -47,6 +47,10 @@ def setup_logging(
         logger.addHandler(file_handler)
 
     if run_id:
-        logger = logging.LoggerAdapter(logger, {"run_id": run_id})
+        result: logging.Logger | logging.LoggerAdapter[logging.Logger] = logging.LoggerAdapter(
+            logger, {"run_id": run_id}
+        )
+    else:
+        result = logger
 
-    return logger
+    return result
