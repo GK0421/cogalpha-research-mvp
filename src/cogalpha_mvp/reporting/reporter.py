@@ -115,7 +115,7 @@ class ReportGenerator:
 
         portfolio_html = ""
         if portfolio:
-            portfolio_html = "<h2>📊 Portfolio Results</h2><table border='1' cellpadding='5'>"
+            portfolio_html = "<h2>[CHART] Portfolio Results</h2><table border='1' cellpadding='5'>"
             for strategy, result in portfolio.items():
                 if isinstance(result, dict):
                     portfolio_html += f"<tr><th>{strategy}</th><td>"
@@ -149,17 +149,17 @@ class ReportGenerator:
 </head>
 <body>
 <div class="container">
-    <h1>🧪 CogAlpha Research MVP Report</h1>
+    <h1>[LAB] CogAlpha Research MVP Report</h1>
     <p><b>Run ID:</b> {self.config.run_id or "N/A"}</p>
     <p><b>Generated:</b> {datetime.now().strftime("%Y-%m-%d %H:%M:%S")}</p>
 
     <div class="disclaimer">
-        ⚠️ RESEARCH_BACKTEST_ONLY | NO_LIVE_TRADING<br>
+        [!] RESEARCH_BACKTEST_ONLY | NO_LIVE_TRADING<br>
         This report is for research and educational purposes only.
         It does NOT constitute investment advice and does NOT imply any real trading capability.
     </div>
 
-    <h2>📋 Data Summary</h2>
+    <h2>[CLIP] Data Summary</h2>
     <table border="1" cellpadding="5">
         <tr><th>Field</th><th>Value</th></tr>
         <tr><td>Rows</td><td>{data.get("rows", "N/A")}</td></tr>
@@ -170,24 +170,24 @@ class ReportGenerator:
         <tr><td>Data Fingerprint</td><td>{str(data.get("data_fingerprint", "N/A"))[:32]}...</td></tr>
     </table>
 
-    <h2>🔍 Quality Check Results</h2>
+    <h2>[SEARCH] Quality Check Results</h2>
     <div class="metric">Total: {len(kwargs["quality_results"])}</div>
     <div class="metric qualified">Passed: {n_passed}</div>
     <div class="metric rejected">Failed: {len(kwargs["quality_results"]) - n_passed}</div>
 
-    <h2>📈 Factor Scoring</h2>
+    <h2>[CHART] Factor Scoring</h2>
     <div class="metric elite">Elite: {n_elite}</div>
     <div class="metric qualified">Qualified: {n_qualified}</div>
     <div class="metric rejected">Rejected: {n_rejected}</div>
 
-    <h2>🔄 Deduplication</h2>
+    <h2>[SYNC] Deduplication</h2>
     <p>Factors before dedup: {kwargs["dedup_results"].get("before", "N/A")}</p>
     <p>Factors after dedup: {kwargs["dedup_results"].get("after", "N/A")}</p>
     <p>Removed: {kwargs["dedup_results"].get("removed", "N/A")}</p>
 
     {portfolio_html}
 
-    <h2>⚠️ Known Limitations</h2>
+    <h2>[!] Known Limitations</h2>
     <ul>
         <li>This MVP uses synthetic data for demonstration. Results are NOT indicative of real market performance.</li>
         <li>No survivorship-bias-free universe snapshots are implemented.</li>

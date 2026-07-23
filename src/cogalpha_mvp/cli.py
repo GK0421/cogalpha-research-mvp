@@ -314,7 +314,7 @@ def demo(output_dir, log_level):
     for k, v in summary.items():
         click.echo(f"  {k}: {v}")
 
-    click.echo(f"\n📄 Report: {summary.get('report_path', 'N/A')}")
+    click.echo(f"\n[DOC] Report: {summary.get('report_path', 'N/A')}")
 
 
 if __name__ == "__main__":

@@ -299,15 +299,15 @@ class FactorInterpreter:
 
     @staticmethod
     def _sign(series: pd.Series) -> pd.Series:
-        return np.sign(series)
+        return pd.Series(np.sign(series), index=series.index)
 
     @staticmethod
     def _log1p(series: pd.Series) -> pd.Series:
-        return np.log1p(series.abs()) * np.sign(series)
+        return pd.Series(np.log1p(series.abs()) * np.sign(series), index=series.index)
 
     @staticmethod
     def _sqrt(series: pd.Series) -> pd.Series:
-        return np.sqrt(series.abs()) * np.sign(series)
+        return pd.Series(np.sqrt(series.abs()) * np.sign(series), index=series.index)
 
     @staticmethod
     def _clip(series: pd.Series, lower: float, upper: float) -> pd.Series:
@@ -327,19 +327,21 @@ class FactorInterpreter:
 
     @staticmethod
     def _div(a, b):
-        return a / (b.replace(0, np.nan) if hasattr(b, "replace") else b)
+        if hasattr(b, "replace"):
+            return a / b.replace(0, np.nan)
+        return a / (b if b != 0 else np.nan)
 
     @staticmethod
     def _min(a, b):
-        return np.minimum(a, b)
+        return pd.Series(np.minimum(a, b), index=getattr(a, "index", None))
 
     @staticmethod
     def _max(a, b):
-        return np.maximum(a, b)
+        return pd.Series(np.maximum(a, b), index=getattr(a, "index", None))
 
     @staticmethod
     def _where(cond, a, b):
-        return np.where(cond, a, b)
+        return pd.Series(np.where(cond, a, b), index=getattr(cond, "index", None))
 
     # Map function names to implementations
     _FUNCS: ClassVar[dict[str, Callable]] = {}
