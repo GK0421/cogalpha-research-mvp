@@ -1,0 +1,73 @@
+# === Secrets & Credentials ===
+.env
+*.key
+*.pem
+*.p12
+config.yaml
+configs/research.yaml
+!configs/default.yaml
+!configs/demo.yaml
+!configs/research.example.yaml
+!configs/agents.yaml
+
+# === Data files (never commit large market data) ===
+data/raw/*
+data/normalized/*
+data/features/*
+!data/raw/.gitkeep
+!data/normalized/.gitkeep
+!data/features/.gitkeep
+!data/README.md
+*.parquet
+*.h5
+*.hdf5
+*.feather
+*.duckdb
+*.db
+
+# === Results & outputs ===
+results/
+logs/
+*.log
+
+# === Python ===
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+.venv/
+venv/
+env/
+ENV/
+build/
+dist/
+*.egg-info/
+*.egg
+.eggs/
+pip-wheel-metadata/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.tox/
+htmlcov/
+.coverage
+.coverage.*
+coverage.xml
+*.cover
+
+# === IDE ===
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+
+# === OS ===
+.DS_Store
+desktop.ini
+
+# === Reference repos (temporary) ===
+_cogalpha_reference_repositories/

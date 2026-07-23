@@ -1,0 +1,68 @@
+name: Security
+
+on:
+  push:
+    branches: [main, feature/*]
+  pull_request:
+    branches: [main]
+  schedule:
+    - cron: '0 0 * * 0'  # Weekly
+
+jobs:
+  security:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -e ".[dev]"
+          pip install pip-audit
+
+      - name: pip-audit
+        run: pip-audit --strict
+        continue-on-error: true
+
+      - name: Secret scan
+        run: |
+          echo "Scanning for secrets..."
+          python -c "
+          import re, sys, os
+          patterns = [r'sk-[a-zA-Z0-9]{20,}', r'ghp_[a-zA-Z0-9]{36}', r'gho_[a-zA-Z0-9]{36}']
+          found = False
+          for root, dirs, files in os.walk('.'):
+              if '.git' in root or '.venv' in root or '__pycache__' in root:
+                  continue
+              for f in files:
+                  if f.endswith(('.py', '.yaml', '.yml', '.json', '.md', '.txt', '.cfg')):
+                      path = os.path.join(root, f)
+                      if '.env.example' in path or 'SECURITY.md' in path:
+                          continue
+                      try:
+                          with open(path, 'r', encoding='utf-8', errors='ignore') as fh:
+                              content = fh.read()
+                              for p in patterns:
+                                  if re.search(p, content):
+                                      print(f'SECRET FOUND in {path}')
+                                      found = True
+                      except:
+                          pass
+          if found:
+              sys.exit(1)
+          print('No secrets found.')
+          "
+
+      - name: Build file check
+        run: |
+          echo "Checking for large files..."
+          find . -not -path './.git/*' -not -path './.venv/*' -not -path './__pycache__/*' -type f -size +1M | while read f; do
+            echo "WARNING: Large file: $f"
+          done
+          echo "Build file check complete."

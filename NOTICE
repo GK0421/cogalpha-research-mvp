@@ -1,0 +1,31 @@
+CogAlpha Research MVP
+Copyright (c) 2026 GK0421
+
+This project is licensed under the MIT License (see LICENSE file).
+
+Third-Party References
+======================
+
+This project was inspired by the architecture and design concepts of the
+following open-source projects. No code was directly copied; all
+implementations are clean-room based on publicly documented interfaces and
+architectural ideas:
+
+1. GK0421/cogalpha-factor-mining-clean
+   - License: MIT
+   - Relationship: Predecessor project (Stage18). This MVP is an independent
+     rebuild with stricter sample isolation, a safe DSL (no eval/exec), and
+     a reproducible pipeline architecture.
+
+2. simonlin1212/global-stock-data
+   - Reviewed for data normalization patterns only.
+
+3. simonlin1212/a-stock-data
+   - Reviewed for A-share data field conventions only.
+
+4. HKUDS/Vibe-Trading
+   - Reviewed for architectural patterns only.
+
+The CogAlpha Operations Manual (PDF) served as a design reference for the
+seven-level agent architecture, factor quality checking pipeline, and
+out-of-sample validation methodology.

@@ -1,0 +1,227 @@
+# CogAlpha Research MVP - 21 Agents Configuration
+# Seven levels, 3 agents per level, 21 total.
+
+agents:
+  # Level 1: Market Structure & Cycle
+  - id: "Agent_01"
+    level: 1
+    name: "趋势与周期相位"
+    economic_rationale: "长短周期移动平均的相位差刻画牛熊转换"
+    allowed_inputs: ["close", "volume"]
+    allowed_operators: ["ts_mean", "ts_std", "div", "sub", "delay"]
+    seed_factor_ids: ["seed_001"]
+    prompt_template: "prompts/agents/agent_lv1_trend_phase.j2"
+    generation_modes: ["mild", "moderate", "creative", "divergent", "concrete"]
+
+  - id: "Agent_02"
+    level: 1
+    name: "波动率状态"
+    economic_rationale: "波动率历史分位数反映市场状态"
+    allowed_inputs: ["close"]
+    allowed_operators: ["ret", "ts_std", "ts_mean", "div", "sub", "add"]
+    seed_factor_ids: ["seed_002"]
+    prompt_template: "prompts/agents/agent_lv1_vol_regime.j2"
+    generation_modes: ["mild", "moderate", "creative", "divergent", "concrete"]
+
+  - id: "Agent_03"
+    level: 1
+    name: "市场状态转换"
+    economic_rationale: "收益率波动比率识别市场状态转换"
+    allowed_inputs: ["close"]
+    allowed_operators: ["ret", "ts_std", "div", "add"]
+    seed_factor_ids: ["seed_003"]
+    prompt_template: "prompts/agents/agent_lv1_market_state.j2"
+    generation_modes: ["mild", "moderate", "creative", "divergent", "concrete"]
+
+  # Level 2: Extreme Risk & Fragility
+  - id: "Agent_04"
+    level: 2
+    name: "下行风险"
+    economic_rationale: "下行波动率衡量下行风险暴露"
+    allowed_inputs: ["close"]
+    allowed_operators: ["ret", "where", "ts_mean"]
+    seed_factor_ids: ["seed_004"]
+    prompt_template: "prompts/agents/agent_lv2_downside.j2"
+    generation_modes: ["mild", "moderate", "creative", "divergent", "concrete"]
+
+  - id: "Agent_05"
+    level: 2
+    name: "尾部风险"
+    economic_rationale: "最大日跌幅的滚动统计衡量尾部风险"
+    allowed_inputs: ["close"]
+    allowed_operators: ["ret", "ts_min", "ts_max"]
+    seed_factor_ids: ["seed_005"]
+    prompt_template: "prompts/agents/agent_lv2_tail.j2"
+    generation_modes: ["mild", "moderate", "creative", "divergent", "concrete"]
+
+  - id: "Agent_06"
+    level: 2
+    name: "流动性脆弱性"
+    economic_rationale: "成交量萎缩率识别流动性脆弱性"
+    allowed_inputs: ["volume"]
+    allowed_operators: ["ts_mean", "sub", "div", "add"]
+    seed_factor_ids: ["seed_006"]
+    prompt_template: "prompts/agents/agent_lv2_liquidity.j2"
+    generation_modes: ["mild", "moderate", "creative", "divergent", "concrete"]
+
+  # Level 3: Volume-Price Dynamics
+  - id: "Agent_07"
+    level: 3
+    name: "量价协同"
+    economic_rationale: "收益与成交量的相关性衡量量价协同"
+    allowed_inputs: ["close", "volume"]
+    allowed_operators: ["ret", "corr"]
+    seed_factor_ids: ["seed_007"]
+    prompt_template: "prompts/agents/agent_lv3_vp_corr.j2"
+    generation_modes: ["mild", "moderate", "creative", "divergent", "concrete"]
+
+  - id: "Agent_08"
+    level: 3
+    name: "价格冲击"
+    economic_rationale: "单位成交量引起的价格变化衡量价格冲击"
+    allowed_inputs: ["close", "volume"]
+    allowed_operators: ["ret", "abs", "div", "add", "log1p"]
+    seed_factor_ids: ["seed_008"]
+    prompt_template: "prompts/agents/agent_lv3_price_impact.j2"
+    generation_modes: ["mild", "moderate", "creative", "divergent", "concrete"]
+
+  - id: "Agent_09"
+    level: 3
+    name: "成交量异常"
+    economic_rationale: "成交量偏离均值衡量成交量异常"
+    allowed_inputs: ["volume"]
+    allowed_operators: ["ts_mean", "ts_std", "sub", "div", "add"]
+    seed_factor_ids: ["seed_009"]
+    prompt_template: "prompts/agents/agent_lv3_vol_anomaly.j2"
+    generation_modes: ["mild", "moderate", "creative", "divergent", "concrete"]
+
+  # Level 4: Price Volatility Behavior
+  - id: "Agent_10"
+    level: 4
+    name: "中期动量"
+    economic_rationale: "20日收益率动量"
+    allowed_inputs: ["close"]
+    allowed_operators: ["sub", "delay", "div"]
+    seed_factor_ids: ["seed_010"]
+    prompt_template: "prompts/agents/agent_lv4_momentum.j2"
+    generation_modes: ["mild", "moderate", "creative", "divergent", "concrete"]
+
+  - id: "Agent_11"
+    level: 4
+    name: "短期反转"
+    economic_rationale: "5日收益率反转"
+    allowed_inputs: ["close"]
+    allowed_operators: ["ret", "mul"]
+    seed_factor_ids: ["seed_011"]
+    prompt_template: "prompts/agents/agent_lv4_reversal.j2"
+    generation_modes: ["mild", "moderate", "creative", "divergent", "concrete"]
+
+  - id: "Agent_12"
+    level: 4
+    name: "波动率聚集"
+    economic_rationale: "波动率自相关衡量波动聚集"
+    allowed_inputs: ["close"]
+    allowed_operators: ["ret", "abs", "corr", "delay"]
+    seed_factor_ids: ["seed_012"]
+    prompt_template: "prompts/agents/agent_lv4_vol_cluster.j2"
+    generation_modes: ["mild", "moderate", "creative", "divergent", "concrete"]
+
+  # Level 5: Multi-scale Complexity
+  - id: "Agent_13"
+    level: 5
+    name: "多尺度趋势"
+    economic_rationale: "长短周期趋势差衡量多尺度趋势"
+    allowed_inputs: ["close"]
+    allowed_operators: ["sub", "delay", "div"]
+    seed_factor_ids: ["seed_013"]
+    prompt_template: "prompts/agents/agent_lv5_multiscale.j2"
+    generation_modes: ["mild", "moderate", "creative", "divergent", "concrete"]
+
+  - id: "Agent_14"
+    level: 5
+    name: "长记忆近似"
+    economic_rationale: "收益率的长期自相关近似长记忆特征"
+    allowed_inputs: ["close"]
+    allowed_operators: ["ret", "corr", "delay"]
+    seed_factor_ids: ["seed_014"]
+    prompt_template: "prompts/agents/agent_lv5_long_memory.j2"
+    generation_modes: ["mild", "moderate", "creative", "divergent", "concrete"]
+
+  - id: "Agent_15"
+    level: 5
+    name: "回撤恢复结构"
+    economic_rationale: "距离近期高点的比率衡量回撤恢复"
+    allowed_inputs: ["close"]
+    allowed_operators: ["ts_max", "sub", "div"]
+    seed_factor_ids: ["seed_015"]
+    prompt_template: "prompts/agents/agent_lv5_drawdown.j2"
+    generation_modes: ["mild", "moderate", "creative", "divergent", "concrete"]
+
+  # Level 6: Stability & Regime Control
+  - id: "Agent_16"
+    level: 6
+    name: "时间稳定性"
+    economic_rationale: "因子值的滚动自相关衡量时间稳定性"
+    allowed_inputs: ["close"]
+    allowed_operators: ["corr", "delay"]
+    seed_factor_ids: ["seed_016"]
+    prompt_template: "prompts/agents/agent_lv6_stability.j2"
+    generation_modes: ["mild", "moderate", "creative", "divergent", "concrete"]
+
+  - id: "Agent_17"
+    level: 6
+    name: "状态条件过滤"
+    economic_rationale: "高波动状态下的动量过滤"
+    allowed_inputs: ["close"]
+    allowed_operators: ["ret", "ts_std", "ts_mean", "where", "mul"]
+    seed_factor_ids: ["seed_017"]
+    prompt_template: "prompts/agents/agent_lv6_regime.j2"
+    generation_modes: ["mild", "moderate", "creative", "divergent", "concrete"]
+
+  - id: "Agent_18"
+    level: 6
+    name: "信号衰减控制"
+    economic_rationale: "信号衰减率控制"
+    allowed_inputs: ["close"]
+    allowed_operators: ["ret", "sub", "delay"]
+    seed_factor_ids: ["seed_018"]
+    prompt_template: "prompts/agents/agent_lv6_decay.j2"
+    generation_modes: ["mild", "moderate", "creative", "divergent", "concrete"]
+
+  # Level 7: Geometry & Fusion
+  - id: "Agent_19"
+    level: 7
+    name: "K线几何"
+    economic_rationale: "K线实体与影线的比率"
+    allowed_inputs: ["open", "high", "low", "close"]
+    allowed_operators: ["sub", "div"]
+    seed_factor_ids: ["seed_019"]
+    prompt_template: "prompts/agents/agent_lv7_candle.j2"
+    generation_modes: ["mild", "moderate", "creative", "divergent", "concrete"]
+
+  - id: "Agent_20"
+    level: 7
+    name: "多因子条件融合"
+    economic_rationale: "动量与反转的条件融合"
+    allowed_inputs: ["close"]
+    allowed_operators: ["ret", "where", "mul"]
+    seed_factor_ids: ["seed_020"]
+    prompt_template: "prompts/agents/agent_lv7_fusion.j2"
+    generation_modes: ["mild", "moderate", "creative", "divergent", "concrete"]
+
+  - id: "Agent_21"
+    level: 7
+    name: "非线性融合"
+    economic_rationale: "动量和波动率的非线性融合"
+    allowed_inputs: ["close"]
+    allowed_operators: ["ret", "ts_std", "rank", "mul"]
+    seed_factor_ids: ["seed_021"]
+    prompt_template: "prompts/agents/agent_lv7_nonlinear.j2"
+    generation_modes: ["mild", "moderate", "creative", "divergent", "concrete"]
+
+generation_modes:
+  mild: [0.1, 0.3]
+  moderate: [0.3, 0.5]
+  creative: [0.5, 0.7]
+  divergent: [0.7, 0.9]
+  concrete: [0.5, 0.7]

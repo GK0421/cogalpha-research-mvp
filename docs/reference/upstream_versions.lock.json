@@ -1,0 +1,33 @@
+{
+  "repositories": [
+    {
+      "url": "https://github.com/GK0421/cogalpha-factor-mining-clean",
+      "branch": "main",
+      "license": "MIT",
+      "relationship": "predecessor",
+      "reviewed_date": "2026-07-23"
+    },
+    {
+      "url": "https://github.com/simonlin1212/global-stock-data",
+      "branch": "main",
+      "license": "reviewed-only",
+      "relationship": "external-reference",
+      "reviewed_date": "2026-07-23"
+    },
+    {
+      "url": "https://github.com/simonlin1212/a-stock-data",
+      "branch": "main",
+      "license": "reviewed-only",
+      "relationship": "external-reference",
+      "reviewed_date": "2026-07-23"
+    },
+    {
+      "url": "https://github.com/HKUDS/Vibe-Trading",
+      "branch": "main",
+      "license": "reviewed-only",
+      "relationship": "external-reference",
+      "reviewed_date": "2026-07-23"
+    }
+  ],
+  "note": "All repositories reviewed in read-only mode. No code copied. Clean-room implementation."
+}

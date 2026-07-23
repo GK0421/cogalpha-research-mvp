@@ -1,0 +1,66 @@
+# CogAlpha Research MVP - Default Configuration
+# This is the default configuration. Copy to research.yaml for actual use.
+
+data:
+  full_start: "2011-01-01"
+  full_end: "2025-12-31"
+  train_start: "2011-01-01"
+  train_end: "2019-12-31"
+  oos_start: "2020-01-01"
+  oos_end: "2025-12-31"
+  raw_dir: "data/raw"
+  normalized_dir: "data/normalized"
+  features_dir: "data/features"
+
+factors:
+  qualified_score_threshold: 0.65
+  elite_score_threshold: 0.80
+  min_ic_qualified: 0.005
+  min_icir_qualified: 0.05
+  min_rankic_qualified: 0.005
+  min_rankicir_qualified: 0.05
+  min_ic_elite: 0.01
+  min_icir_elite: 0.10
+  min_rankic_elite: 0.01
+  min_rankicir_elite: 0.10
+  return_label: "next_1d_return"
+  forward_period: 1
+
+dedup:
+  absolute_correlation_threshold: 0.85
+  structural_dedup: true
+  numerical_dedup: true
+
+portfolio:
+  top_quantile: 0.2
+  bottom_quantile: 0.2
+  rebalance: "weekly"
+  transaction_cost_bps: 10
+  slippage_bps: 5
+  max_single_weight: 0.05
+
+quality:
+  min_valid_ratio: 0.5
+  max_nan_ratio: 0.5
+  near_constant_threshold: 1.0e-8
+  truncation_test_dates: 10
+  truncation_max_diff: 1.0e-10
+  truncation_min_corr: 0.9999
+  max_complexity: 100
+
+generation:
+  enabled: false
+  mode: "concrete"
+  temperature_range:
+    mild: [0.1, 0.3]
+    moderate: [0.3, 0.5]
+    creative: [0.5, 0.7]
+    divergent: [0.7, 0.9]
+    concrete: [0.5, 0.7]
+  max_concurrent_requests: 5
+  max_retry_on_error: 3
+  timeout: 60
+
+seed: 42
+output_dir: "results"
+log_level: "INFO"
