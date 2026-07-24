@@ -297,12 +297,12 @@ def demo(output_dir, log_level):
     cfg.output_dir = output_dir
     cfg.log_level = log_level
     # Use shorter date range for demo speed
-    cfg.data.full_start = "2020-01-01"
-    cfg.data.full_end = "2023-12-31"
-    cfg.data.train_start = "2020-01-01"
-    cfg.data.train_end = "2022-06-30"
-    cfg.data.oos_start = "2022-07-01"
-    cfg.data.oos_end = "2023-12-31"
+    cfg.data.full_start = "2022-01-01"
+    cfg.data.full_end = "2022-06-30"
+    cfg.data.train_start = "2022-01-01"
+    cfg.data.train_end = "2022-03-31"
+    cfg.data.oos_start = "2022-04-01"
+    cfg.data.oos_end = "2022-06-30"
     cfg.data.validate_boundaries()
 
     runner = PipelineRunner(cfg)
