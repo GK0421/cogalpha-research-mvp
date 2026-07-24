@@ -4,10 +4,7 @@ import type {
   Dataset,
   Factor,
   Run,
-  Artifact,
-  Setting,
   HealthResponse,
-  CapabilityResponse,
 } from '../types'
 
 describe('Type definitions', () => {

@@ -10,7 +10,7 @@ function renderWithProviders(ui: React.ReactElement) {
   })
   return render(
     <QueryClientProvider client={queryClient}>
-      <MemoryRouter>{ui}</MemoryClientProvider>
+      <MemoryRouter>{ui}</MemoryRouter>
     </QueryClientProvider>,
   )
 }

@@ -11,14 +11,16 @@ WORKDIR /app
 COPY apps/web/package.json apps/web/package-lock.json* ./
 
 # Install dependencies
-RUN npm ci --silent 2>/dev/null || npm install --silent
+RUN npm install --silent
 
-# Copy source and build
+# Copy source (exclude test files via .dockerignore patterns)
 COPY apps/web/ ./
 
 # Set API URL for production build
 ENV VITE_API_BASE_URL=http://127.0.0.1:8765/api
-RUN npm run build
+
+# Build (skip tests, only build production bundle)
+RUN npx vite build
 
 # --- Stage 2: Serve with Nginx ---
 FROM nginx:alpine
