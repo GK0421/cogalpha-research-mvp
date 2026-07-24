@@ -3,7 +3,7 @@
 **Document ID**: CogAlpha-APPROVAL-001  
 **Date**: 2026-07-24  
 **Project**: CogAlpha Research MVP v0.1.1  
-**Approver**: 郭恺  
+**Approver**: [AUTHOR] (GitHub: @GK0421)  
 
 ---
 
@@ -17,7 +17,7 @@
 该区间偏离原始2011-2019训练期设定，原因是当前真实数据不包含2011-2014年。  
 本批准仅适用于MVP工程验证，不代表原始长期样本研究设计已经完整复现。
 
-批准人：郭恺  
+批准人：[AUTHOR] (GitHub: @GK0421)  
 批准日期：2026-07-24
 
 ---
@@ -39,9 +39,9 @@
 
 | Parameter | Actual Value | Source |
 |-----------|-------------|--------|
-| Earliest date in data | 2015-01-05 | `stock_daily_master.parquet` (10.7M rows) |
-| Total symbols | 5,401 | `stock_daily_master.parquet` |
-| Total rows | 10,700,000+ | `stock_daily_master.parquet` |
+| Earliest date in data | 2015-01-05 | `A-stock daily data source (parquet)` (10.7M rows) |
+| Total symbols | 5,401 | `A-stock daily data source (parquet)` |
+| Total rows | 10,700,000+ | `A-stock daily data source (parquet)` |
 | Sampled symbols | 100 | `data/raw/real_astock_sample.csv` |
 | Sampled rows | 266,222 | `data/raw/real_astock_sample.csv` |
 | Sampled unique dates | 2,663 | `data/raw/real_astock_sample.csv` |

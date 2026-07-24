@@ -71,3 +71,5 @@ desktop.ini
 
 # === Reference repos (temporary) ===
 _cogalpha_reference_repositories/
+*.pdf
+docs/reference/*.pdf

@@ -185,7 +185,7 @@ Coverage: 88%+ (threshold 85%)
 ### MAJOR-04: Data Range Deviation (APPROVED)
 
 **Approval ID**: CogAlpha-APPROVAL-001  
-**Approver**: guokai  
+**Approver**: [AUTHOR]  
 **Approval Date**: 2026-07-24  
 **Approval Document**: [AUTHOR_APPROVAL_DATA_RANGE.md](AUTHOR_APPROVAL_DATA_RANGE.md)
 
@@ -222,7 +222,7 @@ Coverage: 88%+ (threshold 85%)
 > 
 > 该区间偏离原始2011-2019训练期设定，原因是当前真实数据不包含2011-2014年。  
 > 本批准仅适用于MVP工程验证，不代表原始长期样本研究设计已经完整复现。  
-> 批准人：郭恺  
+> 批准人：[AUTHOR] (GitHub: @GK0421)  
 > 批准日期：2026-07-24
 
 ### Final Verdict

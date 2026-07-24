@@ -35,6 +35,26 @@ Data Import → Raw Snapshot → Normalization & Validation → Train/OOS Isolat
 - **Future Info Leakage Detection**: Time-series truncation tests verify no look-ahead bias.
 - **Reproducible**: Fixed random seeds, config snapshots, and SHA256 checksums.
 - **Research-Only Backtest**: Portfolio simulation with transaction costs, no live trading.
+- **Optional LLM Integration**: Works with zero API keys. Add a key to enable LLM-based factor generation (MiniMax, OpenAI, Anthropic, DeepSeek, DashScope).
+
+## 🔧 LLM Integration (Optional)
+
+CogAlpha MVP is designed to work **without any LLM API key**. The 21 built-in seed factors
+are fully deterministic and require no external calls.
+
+To enable optional LLM-based factor generation:
+
+1. Copy `.env.example` to `.env`
+2. Set any one of the supported API keys:
+   - `MINIMAX_API_KEY` (recommended for Chinese market research)
+   - `OPENAI_API_KEY` (optionally set `OPENAI_BASE_URL` for proxies)
+   - `ANTHROPIC_API_KEY`
+   - `DEEPSEEK_API_KEY`
+   - `DASHSCOPE_API_KEY`
+3. Run `python -m cogalpha_mvp.cli doctor` to verify
+
+If no key is set, the pipeline uses seed factors only and degrades gracefully.
+No functionality is lost for MVP-level research.
 
 ## 📐 Architecture
 

@@ -102,6 +102,8 @@ class TestCLIDoctor:
         assert result.exit_code == 0
         assert "ANTHROPIC_API_KEY" in result.output
         assert "OPENAI_API_KEY" in result.output
+        assert "MINIMAX_API_KEY" in result.output
+        assert "DEEPSEEK_API_KEY" in result.output
 
 
 class TestCLIInit:
