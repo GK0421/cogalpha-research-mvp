@@ -12,6 +12,10 @@ Commands:
   report            - Generate report
   run-all           - Run complete pipeline
   demo              - Run demo with synthetic data
+  studio            - Start CogAlpha Studio web workbench
+  studio-status     - Check Studio status
+  studio-stop       - Stop Studio
+  workspace-info    - Show workspace information
 """
 
 from __future__ import annotations
@@ -322,6 +326,112 @@ def demo(output_dir, log_level):
         click.echo(f"  {k}: {v}")
 
     click.echo(f"\n[DOC] Report: {summary.get('report_path', 'N/A')}")
+
+
+@main.command()
+@click.option("--port", default=8765, help="Port to listen on")
+@click.option("--no-browser", is_flag=True, help="Do not open browser")
+@click.option("--log-level", default="info", help="Log level")
+@click.option("--workspace", default=None, help="Workspace directory path")
+def studio(port, no_browser, log_level, workspace):
+    """Start CogAlpha Studio web workbench."""
+    import os
+    import subprocess
+    import sys as _sys
+    import webbrowser
+
+    if workspace:
+        os.environ["COGALPHA_HOME"] = workspace
+
+    click.echo(f"Starting CogAlpha Studio on 127.0.0.1:{port}...")
+
+    cmd = [
+        _sys.executable,
+        "-m",
+        "uvicorn",
+        "apps.api.server:app",
+        "--host",
+        "127.0.0.1",
+        "--port",
+        str(port),
+        "--log-level",
+        log_level,
+    ]
+
+    proc = subprocess.Popen(cmd)
+
+    import time
+    import urllib.request
+
+    # Wait for health check
+    for _ in range(30):
+        time.sleep(1)
+        try:
+            urllib.request.urlopen(f"http://127.0.0.1:{port}/api/health", timeout=2)
+            break
+        except Exception:
+            pass
+
+    url = f"http://127.0.0.1:{port}"
+    click.echo(f"Studio running at {url}")
+    click.echo("Press Ctrl+C to stop.")
+
+    if not no_browser:
+        webbrowser.open(url)
+
+    try:
+        proc.wait()
+    except KeyboardInterrupt:
+        proc.terminate()
+        click.echo("\nStudio stopped.")
+
+
+@main.command()
+def studio_status():
+    """Check if CogAlpha Studio is running."""
+    import urllib.request
+
+    try:
+        resp = urllib.request.urlopen("http://127.0.0.1:8765/api/health", timeout=2)
+        data = resp.read().decode()
+        click.echo("CogAlpha Studio: RUNNING")
+        click.echo(f"  Health: {data}")
+    except Exception:
+        click.echo("CogAlpha Studio: NOT RUNNING")
+
+
+@main.command()
+def studio_stop():
+    """Stop CogAlpha Studio."""
+    import os
+    import signal
+
+    pid_file = os.path.join(os.environ.get("LOCALAPPDATA", "/tmp"), "cogalpha-studio", "studio.pid")
+    if os.path.exists(pid_file):
+        with open(pid_file) as f:
+            pid = int(f.read().strip())
+        try:
+            os.kill(pid, signal.SIGTERM)
+            click.echo(f"Stopped Studio (PID {pid})")
+        except Exception:
+            click.echo(f"Failed to stop PID {pid}")
+        os.remove(pid_file)
+    else:
+        click.echo("No PID file found. Studio may not be running.")
+
+
+@main.command()
+def workspace_info():
+    """Show workspace directory information."""
+    from cogalpha_mvp.product.paths import WorkspaceManager
+
+    ws = WorkspaceManager()
+    click.echo(f"Workspace root: {ws.root}")
+    click.echo(f"  Data dir: {ws.data_dir}")
+    click.echo(f"  Runs dir: {ws.runs_dir}")
+    click.echo(f"  Reports dir: {ws.reports_dir}")
+    click.echo(f"  Database: {ws.root / 'cogalpha.db'}")
+    click.echo(f"  Exists: {ws.root.exists()}")
 
 
 if __name__ == "__main__":

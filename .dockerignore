@@ -1,0 +1,42 @@
+# .dockerignore - Reduce Docker build context
+.git
+.github
+.venv
+node_modules
+__pycache__
+*.pyc
+*.pyo
+*.egg-info
+dist
+build
+
+# Data files (never in image)
+data/raw
+data/processed
+results/
+
+# Documentation (not needed in image)
+docs/
+*.md
+*.pdf
+*.rst
+
+# IDE / OS files
+.vscode
+.idea
+.DS_Store
+Thumbs.db
+
+# Environment (never in image)
+.env
+.env.local
+*.pem
+*.key
+
+# Test artifacts
+.coverage
+coverage.xml
+htmlcov/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
