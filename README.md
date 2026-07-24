@@ -208,9 +208,63 @@ mypy src
 pytest --cov=src/cogalpha_mvp --cov-report=term-missing
 ```
 
-## 📚 Documentation
+## CogAlpha Studio v0.2.0 (Browser-Based Workbench)
+
+Starting from v0.2.0, CogAlpha includes **CogAlpha Studio** - a local-first, browser-based
+quantitative research workbench built on top of the CLI framework.
+
+### Quick Start
+
+```bash
+# Install dependencies
+pip install -e ".[dev]"
+
+# Start the Studio (opens browser)
+python scripts/studio_start.py
+
+# Or development mode (starts both API + frontend dev server)
+python scripts/studio_start.py --dev
+```
+
+### Architecture
+
+```
+CogAlpha Studio
+  |
+  +-- Backend (FastAPI, port 8765, localhost-only)
+  |     +-- REST API (43 endpoints)
+  |     +-- SQLAlchemy + SQLite (WAL mode)
+  |     +-- Background job manager
+  |
+  +-- Frontend (React + TypeScript + Vite, port 5173)
+  |     +-- Dashboard, Projects, Factor Lab, Runs, Settings
+  |     +-- Dark theme, ECharts ready
+  |
+  +-- Docker (multi-stage build)
+```
+
+### Key Features
+
+- **Project Management**: Create and manage research projects
+- **Data Import**: Upload CSV/Parquet datasets with quality validation
+- **Factor Lab**: Interactive DSL expression validator with 21 seed factors
+- **Research Runs**: Background pipeline execution with progress tracking
+- **Reports**: View HTML reports and factor metrics
+- **Settings**: Configure LLM providers (all optional)
+- **Localhost-only**: Security-first default binding
+
+### Docker
+
+```bash
+cd docker
+docker-compose up
+# Accessible at http://127.0.0.1:8765
+```
+
+## Documentation
 
 - [Architecture](docs/architecture.md)
+- [v0.2.0 Architecture Decisions](docs/audit/v0.2.0_architecture_decisions.md)
 - [Data Contract](docs/data_contract.md)
 - [Factor Protocol](docs/factor_protocol.md)
 - [Research Methodology](docs/research_methodology.md)
