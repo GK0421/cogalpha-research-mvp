@@ -7,7 +7,7 @@ import logging
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
-from src.cogalpha_mvp.application import (
+from cogalpha_mvp.application import (
     DatasetService,
     FactorService,
     ProjectService,
@@ -15,12 +15,12 @@ from src.cogalpha_mvp.application import (
     RunService,
     SettingsService,
 )
-from src.cogalpha_mvp.jobs.manager import JobManager
-from src.cogalpha_mvp.jobs.recovery import recover_runs
-from src.cogalpha_mvp.persistence.database import Database
-from src.cogalpha_mvp.persistence.migrations import run_migrations
-from src.cogalpha_mvp.product.paths import WorkspaceManager
-from src.cogalpha_mvp.product.version import PRODUCT_NAME, PRODUCT_VERSION
+from cogalpha_mvp.jobs.manager import JobManager
+from cogalpha_mvp.jobs.recovery import recover_runs
+from cogalpha_mvp.persistence.database import Database
+from cogalpha_mvp.persistence.migrations import run_migrations
+from cogalpha_mvp.product.paths import WorkspaceManager
+from cogalpha_mvp.product.version import PRODUCT_NAME, PRODUCT_VERSION
 
 logger = logging.getLogger(__name__)
 

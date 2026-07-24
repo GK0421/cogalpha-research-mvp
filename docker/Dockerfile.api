@@ -1,0 +1,42 @@
+# docker/Dockerfile.api
+# CogAlpha Studio - Backend API Image
+# Multi-stage build: Python only, non-root user
+
+FROM python:3.11-slim AS base
+
+LABEL org.opencontainers.image.title="CogAlpha Studio API"
+LABEL org.opencontainers.image.version="0.2.1"
+LABEL org.opencontainers.image.description="Local-first quantitative factor research workbench - API"
+
+# Install system dependencies
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    gcc g++ && \
+    rm -rf /var/lib/apt/lists/*
+
+# Create non-root user
+RUN useradd -m -u 1000 cogalpha
+
+WORKDIR /app
+
+# Copy project files
+COPY pyproject.toml VERSION ./
+COPY src/ ./src/
+COPY apps/api/ ./apps/api/
+COPY configs/ ./configs/
+
+# Install Python dependencies
+RUN pip install --no-cache-dir -e ".[dev]"
+
+# Switch to non-root user
+USER cogalpha
+
+# Create workspace directory
+RUN mkdir -p /home/cogalpha/.cogalpha
+ENV COGALPHA_HOME=/home/cogalpha/.cogalpha
+
+EXPOSE 8765
+
+HEALTHCHECK --interval=10s --timeout=5s --retries=3 --start-period=10s \
+    CMD python -c "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8765/api/health')" || exit 1
+
+CMD ["python", "-m", "uvicorn", "apps.api.server:app", "--host", "127.0.0.1", "--port", "8765"]

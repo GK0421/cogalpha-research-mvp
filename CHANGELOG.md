@@ -5,6 +5,75 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.2.1] - 2026-07-24
+
+### Added - Spec Compliance Patch
+
+#### Windows Installation Scripts
+- `scripts/install_studio.ps1` - Full installer (checks Python/Node/Git, creates .venv, installs deps, builds frontend)
+- `scripts/start_studio.ps1` - Start with port check, health check, browser open, PID tracking
+- `scripts/stop_studio.ps1` - Stop by PID only (no process-name killing)
+- `scripts/reset_studio.ps1` - Clear cache; metadata deletion requires explicit confirmation
+- `scripts/uninstall_studio.ps1` - Remove venv/node_modules; user data preserved unless --IncludeUserData
+
+#### Docker Separation
+- `docker/Dockerfile.api` - Backend-only image (non-root user, healthcheck)
+- `docker/Dockerfile.web` - Frontend-only image (Node build -> Nginx serve)
+- `docker/nginx.conf` - SPA routing + API proxy
+- `.dockerignore` - Build context optimization
+
+#### CI Workflows
+- `.github/workflows/backend-ci.yml` - Backend CI (Ubuntu+Windows, Python 3.11)
+- `.github/workflows/frontend-ci.yml` - Frontend CI (lint+typecheck+test+build)
+- `.github/workflows/e2e.yml` - E2E CI (Playwright)
+- `.github/workflows/docker.yml` - Docker build CI
+
+#### Frontend Tests
+- Vitest + React Testing Library setup with jsdom
+- 6 test files: App, ProjectsPage, FactorLabPage, Pages, API client, Types
+- Playwright E2E: 5 tests (health, version, project CRUD, factor seed, settings)
+- ESLint configuration (.eslintrc.json)
+- vitest.config.ts with 80% coverage threshold
+- playwright.config.ts
+
+#### CLI Studio Commands
+- `studio` - Start CogAlpha Studio web workbench (--port, --no-browser, --log-level, --workspace)
+- `studio-status` - Check if Studio is running
+- `studio-stop` - Stop Studio
+- `workspace-info` - Show workspace directory information
+
+#### Product Documentation (12 files)
+- `docs/product/product_overview.md`
+- `docs/product/installation_windows.md`
+- `docs/product/installation_docker.md`
+- `docs/product/getting_started.md`
+- `docs/product/data_import_guide.md`
+- `docs/product/factor_lab_guide.md`
+- `docs/product/research_run_guide.md`
+- `docs/product/result_interpretation.md`
+- `docs/product/llm_setup.md`
+- `docs/product/troubleshooting.md`
+- `docs/product/privacy_and_security.md`
+- `docs/product/product_roadmap.md`
+
+#### Audit Reports (6 files)
+- `docs/audit/V0_2_0_BUILD_REPORT.md`
+- `docs/audit/V0_2_0_TEST_REPORT.md`
+- `docs/audit/V0_2_0_SECURITY_REPORT.md`
+- `docs/audit/V0_2_0_PRODUCT_AUDIT.md`
+- `docs/audit/V0_2_0_GITHUB_REPORT.md`
+- `docs/audit/V0_2_0_PRODUCT_PR.md`
+
+#### Frontend Dependencies Added
+- @tanstack/react-table, react-hook-form, zod, @hookform/resolvers
+- @vitest/coverage-v8, jsdom, @testing-library/react, @testing-library/jest-dom
+- @testing-library/user-event, eslint-plugin-react-hooks, eslint-plugin-react-refresh
+- @playwright/test
+
+### Changed
+- docker-compose.yml updated to use separate api/web services
+- apps/web/package.json version bumped to 0.2.1 with new scripts (test:coverage, test:e2e)
+
 ## [0.2.0] - 2026-07-24
 
 ### Added - CogAlpha Studio (Browser-Based Workbench)
