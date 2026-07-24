@@ -5,6 +5,29 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.1.2] - 2026-07-24
+
+### Changed
+- Repository visibility changed from PRIVATE to PUBLIC
+- Reference PDF removed from git tracking (1.6MB binary, moved to .gitignore)
+  - SHA256 manifest preserved in source_manifest.json for traceability
+  - Requirements extract remains in cogalpha_manual_requirements.md
+- Local file paths redacted from source_manifest.json for privacy
+- Author name anonymized in audit documents for public release
+
+### Added
+- LLM Integration section in README with clear optionality documentation
+- MINIMAX_API_KEY support in CLI doctor command and .env.example
+- Enhanced .env.example with OPENAI_BASE_URL proxy support and detailed comments
+- All 5 supported LLM providers listed in doctor check
+
+### Security
+- Security desensitization audit completed before public release
+- No API keys, tokens, or secrets found in codebase
+- No personal names, local paths, or internal identifiers in tracked files
+- .mypy_cache confirmed gitignored (not tracked)
+- results/ confirmed gitignored (no run artifacts committed)
+
 ## [0.1.1] - 2026-07-24
 
 ### Fixed

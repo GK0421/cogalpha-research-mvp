@@ -64,7 +64,13 @@ def doctor():
     click.echo("\nLLM API Keys:")
     import os
 
-    for key in ["ANTHROPIC_API_KEY", "OPENAI_API_KEY", "DEEPSEEK_API_KEY", "DASHSCOPE_API_KEY"]:
+    for key in [
+        "MINIMAX_API_KEY",
+        "ANTHROPIC_API_KEY",
+        "OPENAI_API_KEY",
+        "DEEPSEEK_API_KEY",
+        "DASHSCOPE_API_KEY",
+    ]:
         val = os.environ.get(key, "")
         if val:
             click.echo(f"  [OK] {key}: configured (***{val[-4:]})")
