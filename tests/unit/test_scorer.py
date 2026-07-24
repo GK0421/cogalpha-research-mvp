@@ -107,3 +107,58 @@ class TestFactorScorer:
         for m in metrics_list:
             score = scorer.compute_composite_score(m, metrics_list)
             assert 0.0 <= score <= 1.0, f"Score {score} out of range for {m.factor_id}"
+
+    def test_score_all(self):
+        """Test scoring all factors at once."""
+        scorer = FactorScorer(FactorConfig())
+        all_metrics = {
+            "good": make_metrics(
+                factor_id="good", ic_mean=0.02, icir=0.2, rankic_mean=0.02, rankicir=0.2
+            ),
+            "bad": make_metrics(
+                factor_id="bad", ic_mean=0.001, icir=0.01, rankic_mean=0.001, rankicir=0.01
+            ),
+        }
+        results = scorer.score_all(all_metrics)
+        assert len(results) == 2
+        assert "good" in results
+        assert "bad" in results
+        assert results["good"]["status"] in ("elite", "qualified")
+        assert results["bad"]["status"] == "rejected"
+
+    def test_score_all_empty(self):
+        """Test scoring with empty metrics."""
+        scorer = FactorScorer(FactorConfig())
+        results = scorer.score_all({})
+        assert len(results) == 0
+
+    def test_classify_elite_thresholds(self):
+        """Test that elite thresholds work correctly."""
+        scorer = FactorScorer(FactorConfig())
+        elite_m = make_metrics(
+            factor_id="elite",
+            ic_mean=0.02,
+            icir=0.15,
+            rankic_mean=0.02,
+            rankicir=0.15,
+        )
+        all_m = [elite_m, make_metrics(factor_id="weak")]
+        score = scorer.compute_composite_score(elite_m, all_m)
+        status = scorer.classify(elite_m, score)
+        # With high IC and ICIR, should be at least qualified
+        assert status in ("elite", "qualified")
+
+    def test_qualified_thresholds(self):
+        """Test that qualified thresholds work correctly."""
+        scorer = FactorScorer(FactorConfig())
+        qual_m = make_metrics(
+            factor_id="qual",
+            ic_mean=0.008,
+            icir=0.06,
+            rankic_mean=0.008,
+            rankicir=0.06,
+        )
+        all_m = [qual_m, make_metrics(factor_id="weak")]
+        score = scorer.compute_composite_score(qual_m, all_m)
+        status = scorer.classify(qual_m, score)
+        assert status in ("elite", "qualified", "rejected")

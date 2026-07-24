@@ -28,6 +28,7 @@ dependencies = [
     "jinja2>=3.1",
     "click>=8.1",
     "rich>=13.0",
+    "pyarrow>=10.0",
 ]
 
 [project.optional-dependencies]
@@ -89,5 +90,5 @@ source = ["src/cogalpha_mvp"]
 omit = ["tests/*", "*/__init__.py"]
 
 [tool.coverage.report]
-fail_under = 70
+fail_under = 85
 show_missing = true

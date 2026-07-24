@@ -1,0 +1,46 @@
+data:
+  features_dir: data/features
+  full_end: '2025-12-31'
+  full_start: '2015-01-01'
+  normalized_dir: data/normalized
+  oos_end: '2025-12-31'
+  oos_start: '2020-01-01'
+  raw_dir: data/raw
+  train_end: '2019-12-31'
+  train_start: '2015-01-01'
+dedup:
+  correlation_threshold: 0.85
+  structural_dedup_enabled: true
+factors:
+  elite_score_threshold: 0.8
+  forward_period: 1
+  min_ic_elite: 0.01
+  min_ic_qualified: 0.005
+  min_icir_elite: 0.1
+  min_icir_qualified: 0.05
+  min_rankic_elite: 0.01
+  min_rankic_qualified: 0.005
+  min_rankicir_elite: 0.1
+  min_rankicir_qualified: 0.05
+  qualified_score_threshold: 0.65
+generation:
+  enabled: false
+log_level: INFO
+output_dir: results
+portfolio:
+  bottom_quantile: 0.2
+  max_single_weight: 0.05
+  rebalance: weekly
+  slippage_bps: 5
+  top_quantile: 0.2
+  transaction_cost_bps: 10
+quality:
+  max_complexity: 100
+  max_nan_ratio: 0.7
+  min_valid_ratio: 0.3
+  near_constant_threshold: 1.0e-08
+  truncation_max_diff: 1.0e-10
+  truncation_min_corr: 0.9999
+  truncation_test_dates: 5
+run_id: real_data_run_001
+seed: 42

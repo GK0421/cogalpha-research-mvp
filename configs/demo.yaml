@@ -2,12 +2,12 @@
 # Shorter time range for quick demo runs.
 
 data:
-  full_start: "2020-01-01"
-  full_end: "2023-12-31"
-  train_start: "2020-01-01"
-  train_end: "2022-06-30"
-  oos_start: "2022-07-01"
-  oos_end: "2023-12-31"
+  full_start: "2022-01-01"
+  full_end: "2022-06-30"
+  train_start: "2022-01-01"
+  train_end: "2022-03-31"
+  oos_start: "2022-04-01"
+  oos_end: "2022-06-30"
 
 factors:
   qualified_score_threshold: 0.65
