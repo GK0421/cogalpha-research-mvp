@@ -87,7 +87,7 @@ export function ProjectDetailPage() {
         <div>
           <button className="btn-primary" onClick={() => createRunMutation.mutate()}>
             Start Research Run
-          </button>
+          </span>
         </div>
       </div>
 
@@ -99,7 +99,7 @@ export function ProjectDetailPage() {
             onClick={() => setActiveTab(tab)}
           >
             {tab.charAt(0).toUpperCase() + tab.slice(1)}
-          </button>
+          </span>
         ))}
       </div>
 
@@ -135,9 +135,9 @@ export function ProjectDetailPage() {
               id="dataset-upload"
             />
             <label htmlFor="dataset-upload">
-              <button className="btn-primary btn-sm" as="span">
+              <span className="btn-primary btn-sm">
                 Upload Dataset
-              </button>
+              </span>
             </label>
           </div>
           {datasets && datasets.length > 0 ? (
@@ -184,13 +184,13 @@ export function ProjectDetailPage() {
                 disabled={seedMutation.isPending}
               >
                 Seed 21 Factors
-              </button>
+              </span>
               <button
                 className="btn-primary btn-sm"
                 onClick={() => setShowFactorForm(!showFactorForm)}
               >
                 {showFactorForm ? 'Cancel' : '+ Add Factor'}
-              </button>
+              </span>
             </div>
           </div>
 
@@ -263,7 +263,7 @@ export function ProjectDetailPage() {
                 disabled={!factorForm.name || !factorForm.expression}
               >
                 Create Factor
-              </button>
+              </span>
             </div>
           )}
 

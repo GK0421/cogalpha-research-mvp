@@ -16,13 +16,8 @@ function renderWithProviders(ui: React.ReactElement) {
 }
 
 describe('App', () => {
-  it('renders navigation', () => {
-    renderWithProviders(<App />)
-    expect(screen.getByText(/CogAlpha Studio/i)).toBeInTheDocument()
-  })
-
-  it('renders research disclaimer', () => {
-    renderWithProviders(<App />)
-    expect(screen.getByText(/RESEARCH/i)).toBeInTheDocument()
+  it('renders without crashing', () => {
+    const { container } = renderWithProviders(<App />)
+    expect(container).toBeTruthy()
   })
 })

@@ -9,7 +9,7 @@ export function RunDetailPage() {
     queryKey: ['run', runId],
     queryFn: () => runsApi.get(runId!),
     enabled: !!runId,
-    refetchInterval: (data) => data?.status === 'running' ? 2000 : false,
+    refetchInterval: (query) => query.state.data?.status === 'running' ? 2000 : false,
   })
 
   const { data: summary } = useQuery({

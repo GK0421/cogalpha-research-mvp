@@ -1,3 +1,4 @@
+import { vi } from 'vitest'
 import '@testing-library/jest-dom'
 
 // Mock matchMedia for components that use media queries
@@ -17,9 +18,9 @@ Object.defineProperty(window, 'matchMedia', {
 
 // Mock IntersectionObserver
 class MockIntersectionObserver {
-  observe = jest.fn()
-  unobserve = jest.fn()
-  disconnect = jest.fn()
+  observe = vi.fn()
+  unobserve = vi.fn()
+  disconnect = vi.fn()
 }
 
 Object.defineProperty(window, 'IntersectionObserver', {
@@ -29,4 +30,4 @@ Object.defineProperty(window, 'IntersectionObserver', {
 })
 
 // Mock scrollTo
-window.scrollTo = jest.fn()
+window.scrollTo = vi.fn()
