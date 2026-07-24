@@ -73,3 +73,13 @@ desktop.ini
 _cogalpha_reference_repositories/
 *.pdf
 docs/reference/*.pdf
+
+# === Node.js / Frontend ===
+node_modules/
+apps/web/dist/
+apps/web/node_modules/
+npm-debug.log*
+
+# === CogAlpha workspace data ===
+~/.cogalpha/
+.cogalpha/

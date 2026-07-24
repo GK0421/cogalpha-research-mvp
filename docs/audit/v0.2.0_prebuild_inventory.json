@@ -1,0 +1,88 @@
+{
+  "audit_date": "2026-07-24T18:11:00+08:00",
+  "repository": {
+    "name": "cogalpha-research-mvp",
+    "owner": "GK0421",
+    "url": "https://github.com/GK0421/cogalpha-research-mvp",
+    "visibility": "PUBLIC",
+    "default_branch": "main",
+    "current_commit": "cc2f4bf22be2cd304a2f70b92c1040cb478d25fc",
+    "current_version": "0.1.2",
+    "existing_tags": ["v0.1.0", "v0.1.1", "v0.1.2"],
+    "existing_prs": 3,
+    "existing_issues": 6,
+    "working_tree_clean": true
+  },
+  "environment": {
+    "python_version": "3.12.12",
+    "node_version": "v24.14.0",
+    "npm_version": "11.9.0",
+    "docker_version": "29.0.1",
+    "git_version": "2.53.0",
+    "gh_cli_version": "2.89.0",
+    "os": "Windows 10"
+  },
+  "existing_codebase": {
+    "source_loc": 4609,
+    "test_files": 25,
+    "test_count": 259,
+    "test_pass_rate": "100%",
+    "coverage": "87.11%",
+    "modules": [
+      "config.py",
+      "cli.py",
+      "logging_config.py",
+      "data/adapters.py",
+      "domain/data_contract.py",
+      "domain/sample_boundary.py",
+      "evaluation/dedup.py",
+      "evaluation/metrics.py",
+      "evaluation/scorer.py",
+      "factors/dsl.py",
+      "factors/registry.py",
+      "factors/seed_factors.py",
+      "pipeline/runner.py",
+      "portfolio/backtest.py",
+      "quality/pipeline.py",
+      "reporting/reporter.py"
+    ],
+    "configs": [
+      "agents.yaml",
+      "default.yaml",
+      "demo.yaml",
+      "real_data_test.yaml",
+      "research.example.yaml"
+    ],
+    "llm_providers": [
+      "IFLYTEK_SPARK_API_KEY",
+      "MINIMAX_API_KEY",
+      "OPENAI_API_KEY",
+      "ANTHROPIC_API_KEY",
+      "DEEPSEEK_API_KEY",
+      "DASHSCOPE_API_KEY"
+    ],
+    "seed_factors": 21,
+    "agents": 21,
+    "levels": 7
+  },
+  "target": {
+    "product_name": "CogAlpha Studio",
+    "target_version": "0.2.0",
+    "target_branch": "feat/cogalpha-studio-v0.2.0",
+    "target_tag": "v0.2.0"
+  },
+  "new_components_needed": [
+    "apps/api/ - FastAPI backend",
+    "apps/web/ - React+TypeScript frontend",
+    "src/cogalpha_mvp/application/ - Application services",
+    "src/cogalpha_mvp/persistence/ - SQLite persistence",
+    "src/cogalpha_mvp/jobs/ - Background job manager",
+    "src/cogalpha_mvp/product/ - Product paths and workspace",
+    "docker/ - Docker configuration",
+    "scripts/install_studio.ps1",
+    "scripts/start_studio.ps1",
+    "scripts/stop_studio.ps1",
+    "scripts/reset_studio.ps1",
+    "scripts/uninstall_studio.ps1"
+  ]
+}

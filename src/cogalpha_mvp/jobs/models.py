@@ -1,0 +1,35 @@
+"""Job models and status enums."""
+
+from __future__ import annotations
+
+from enum import Enum
+
+
+class JobStage(str, Enum):
+    INITIALIZING = "INITIALIZING"
+    LOADING_DATA = "LOADING_DATA"
+    VALIDATING_DATA = "VALIDATING_DATA"
+    CALCULATING_FACTORS = "CALCULATING_FACTORS"
+    QUALITY_CHECKING = "QUALITY_CHECKING"
+    TRAIN_EVALUATING = "TRAIN_EVALUATING"
+    DEDUPLICATING = "DEDUPLICATING"
+    OOS_EVALUATING = "OOS_EVALUATING"
+    BACKTESTING = "BACKTESTING"
+    REPORTING = "REPORTING"
+    FINALIZING = "FINALIZING"
+
+
+# Progress mapping for each stage (start percentage)
+STAGE_PROGRESS = {
+    JobStage.INITIALIZING: 0.0,
+    JobStage.LOADING_DATA: 5.0,
+    JobStage.VALIDATING_DATA: 10.0,
+    JobStage.CALCULATING_FACTORS: 20.0,
+    JobStage.QUALITY_CHECKING: 30.0,
+    JobStage.TRAIN_EVALUATING: 45.0,
+    JobStage.DEDUPLICATING: 60.0,
+    JobStage.OOS_EVALUATING: 70.0,
+    JobStage.BACKTESTING: 85.0,
+    JobStage.REPORTING: 95.0,
+    JobStage.FINALIZING: 100.0,
+}
