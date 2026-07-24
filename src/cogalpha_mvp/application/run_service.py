@@ -97,7 +97,9 @@ class RunService:
             new_run = repo.create(
                 project_id=old_run.project_id,
                 dataset_id=old_run.dataset_id,
-                run_type=RunType(old_run.run_type) if isinstance(old_run.run_type, str) else old_run.run_type,
+                run_type=RunType(old_run.run_type)
+                if isinstance(old_run.run_type, str)
+                else old_run.run_type,
                 config_snapshot=config,
             )
             return self._to_dict(new_run)
