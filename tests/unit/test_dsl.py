@@ -196,3 +196,189 @@ class TestFactorDefinition:
             name="test2", agent_id="Agent_01", expression="ts_mean( close , 20 )"
         )
         assert defn1.expression_hash() == defn2.expression_hash()
+
+
+class TestDSLInterpreterAdvanced:
+    """Advanced tests for DSL interpreter covering comparisons, bool ops, etc."""
+
+    @pytest.fixture
+    def sample_data(self):
+        dates = pd.bdate_range("2020-01-01", "2020-04-30")
+        n = len(dates)
+        rng = np.random.default_rng(42)
+        records = []
+        for sym in ["A", "B", "C"]:
+            prices = 100 * np.cumprod(1 + rng.normal(0, 0.02, n))
+            for _i, (date, p) in enumerate(zip(dates, prices, strict=False)):
+                records.append({
+                    "symbol": sym, "trade_date": date,
+                    "open": p * 0.99, "high": p * 1.01, "low": p * 0.98,
+                    "close": p, "volume": int(rng.integers(1e6, 5e7)),
+                    "amount": p * 1e6,
+                })
+        return pd.DataFrame(records)
+
+    def test_binop_add(self, sample_data):
+        interp = FactorInterpreter()
+        r = interp.evaluate("add(close, volume)", sample_data)
+        assert len(r) == len(sample_data)
+
+    def test_binop_sub_inline(self, sample_data):
+        interp = FactorInterpreter()
+        r = interp.evaluate("sub(close, open)", sample_data)
+        assert len(r) == len(sample_data)
+
+    def test_binop_mult_inline(self, sample_data):
+        interp = FactorInterpreter()
+        r = interp.evaluate("mul(close, volume)", sample_data)
+        assert len(r) == len(sample_data)
+
+    def test_binop_div_inline(self, sample_data):
+        interp = FactorInterpreter()
+        r = interp.evaluate("div(close, volume)", sample_data)
+        assert len(r) == len(sample_data)
+
+    def test_binop_pow(self, sample_data):
+        interp = FactorInterpreter()
+        r = interp.evaluate("close ** 2", sample_data)
+        assert len(r) == len(sample_data)
+
+    def test_unary_neg(self, sample_data):
+        interp = FactorInterpreter()
+        r = interp.evaluate("-close", sample_data)
+        assert len(r) == len(sample_data)
+
+    def test_unary_pos(self, sample_data):
+        interp = FactorInterpreter()
+        r = interp.evaluate("+close", sample_data)
+        assert len(r) == len(sample_data)
+
+    def test_compare_gt(self, sample_data):
+        interp = FactorInterpreter()
+        r = interp.evaluate("where(close > 100, close, 0)", sample_data)
+        assert len(r) == len(sample_data)
+
+    def test_compare_lt(self, sample_data):
+        interp = FactorInterpreter()
+        r = interp.evaluate("where(close < 100, close, 0)", sample_data)
+        assert len(r) == len(sample_data)
+
+    def test_compare_ge(self, sample_data):
+        interp = FactorInterpreter()
+        r = interp.evaluate("where(close >= 100, close, 0)", sample_data)
+        assert len(r) == len(sample_data)
+
+    def test_compare_le(self, sample_data):
+        interp = FactorInterpreter()
+        r = interp.evaluate("where(close <= 100, close, 0)", sample_data)
+        assert len(r) == len(sample_data)
+
+    def test_compare_eq(self, sample_data):
+        interp = FactorInterpreter()
+        r = interp.evaluate("where(close == 100, close, 0)", sample_data)
+        assert len(r) == len(sample_data)
+
+    def test_compare_neq(self, sample_data):
+        interp = FactorInterpreter()
+        r = interp.evaluate("where(close != 100, close, 0)", sample_data)
+        assert len(r) == len(sample_data)
+
+    def test_bool_and(self, sample_data):
+        interp = FactorInterpreter()
+        r = interp.evaluate(
+            "where(close > 50 and close < 150, close, 0)", sample_data
+        )
+        assert len(r) == len(sample_data)
+
+    def test_bool_or(self, sample_data):
+        interp = FactorInterpreter()
+        r = interp.evaluate(
+            "where(close > 200 or close < 50, close, 0)", sample_data
+        )
+        assert len(r) == len(sample_data)
+
+    def test_nested_arithmetic(self, sample_data):
+        interp = FactorInterpreter()
+        r = interp.evaluate("sub(add(close, open), close)", sample_data)
+        assert len(r) == len(sample_data)
+
+    def test_field_not_in_columns(self, sample_data):
+        interp = FactorInterpreter()
+        # 'open' is a valid DSL field but not in this subset of columns
+        subset = sample_data[["symbol", "trade_date", "close", "volume"]].copy()
+        # The interpreter catches per-symbol errors and logs warnings,
+        # producing an empty or NaN result instead of raising
+        result = interp.evaluate("delay(open, 1)", subset)
+        # Result should be empty or all NaN since 'open' is not in columns
+        assert len(result) == 0 or result["factor_value"].isna().all()
+
+    def test_unknown_identifier_runtime(self, sample_data):
+        interp = FactorInterpreter()
+        with pytest.raises((DSLParseError, DSLRuntimeError)):
+            interp.evaluate("foo_bar", sample_data)
+
+    def test_ts_rank(self, sample_data):
+        interp = FactorInterpreter()
+        r = interp.evaluate("ts_rank(close, 5)", sample_data)
+        assert len(r) == len(sample_data)
+
+    def test_ts_min_max(self, sample_data):
+        interp = FactorInterpreter()
+        r1 = interp.evaluate("ts_min(close, 5)", sample_data)
+        r2 = interp.evaluate("ts_max(close, 5)", sample_data)
+        assert len(r1) == len(sample_data)
+        assert len(r2) == len(sample_data)
+
+    def test_corr_cov(self, sample_data):
+        interp = FactorInterpreter()
+        r1 = interp.evaluate("corr(close, volume, 10)", sample_data)
+        r2 = interp.evaluate("cov(close, volume, 10)", sample_data)
+        assert len(r1) == len(sample_data)
+        assert len(r2) == len(sample_data)
+
+    def test_zscore(self, sample_data):
+        interp = FactorInterpreter()
+        r = interp.evaluate("zscore(close)", sample_data)
+        assert len(r) == len(sample_data)
+
+    def test_winsorize(self, sample_data):
+        interp = FactorInterpreter()
+        r = interp.evaluate("winsorize(close, 3)", sample_data)
+        assert len(r) == len(sample_data)
+
+    def test_sign(self, sample_data):
+        interp = FactorInterpreter()
+        r = interp.evaluate("sign(ret(close, 1))", sample_data)
+        assert len(r) == len(sample_data)
+
+    def test_log1p(self, sample_data):
+        interp = FactorInterpreter()
+        r = interp.evaluate("log1p(volume)", sample_data)
+        assert len(r) == len(sample_data)
+
+    def test_sqrt(self, sample_data):
+        interp = FactorInterpreter()
+        r = interp.evaluate("sqrt(volume)", sample_data)
+        assert len(r) == len(sample_data)
+
+    def test_clip(self, sample_data):
+        interp = FactorInterpreter()
+        r = interp.evaluate("clip(close, 0, 200)", sample_data)
+        assert len(r) == len(sample_data)
+
+    def test_min_max_funcs(self, sample_data):
+        interp = FactorInterpreter()
+        r1 = interp.evaluate("min(close, open)", sample_data)
+        r2 = interp.evaluate("max(close, open)", sample_data)
+        assert len(r1) == len(sample_data)
+        assert len(r2) == len(sample_data)
+
+    def test_amount_field(self, sample_data):
+        interp = FactorInterpreter()
+        r = interp.evaluate("ts_mean(amount, 5)", sample_data)
+        assert len(r) == len(sample_data)
+
+    def test_open_field(self, sample_data):
+        interp = FactorInterpreter()
+        r = interp.evaluate("delta(open, 1)", sample_data)
+        assert len(r) == len(sample_data)
