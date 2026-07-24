@@ -100,6 +100,7 @@ class TestCLIDoctor:
         """Test doctor shows API key status."""
         result = runner.invoke(main, ["doctor"])
         assert result.exit_code == 0
+        assert "IFLYTEK_SPARK_API_KEY" in result.output
         assert "ANTHROPIC_API_KEY" in result.output
         assert "OPENAI_API_KEY" in result.output
         assert "MINIMAX_API_KEY" in result.output

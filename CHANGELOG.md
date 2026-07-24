@@ -17,9 +17,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 - LLM Integration section in README with clear optionality documentation
+- iFlytek Spark (讯飞星辰) support: OpenAI-compatible API with multi-model access
+  - IFLYTEK_SPARK_API_KEY, IFLYTEK_SPARK_BASE_URL, IFLYTEK_SPARK_MODEL env vars
+  - Supports Spark X2, GLM-5.2, DeepSeek-V4-Pro, Kimi-K2.6, MiniMax-M2.5, Qwen3.5
+  - Model ID: astron-code-latest (auto-routing)
 - MINIMAX_API_KEY support in CLI doctor command and .env.example
 - Enhanced .env.example with OPENAI_BASE_URL proxy support and detailed comments
-- All 5 supported LLM providers listed in doctor check
+- All 6 supported LLM providers listed in doctor check
 
 ### Security
 - Security desensitization audit completed before public release

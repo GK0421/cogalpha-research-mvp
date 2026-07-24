@@ -46,12 +46,29 @@ To enable optional LLM-based factor generation:
 
 1. Copy `.env.example` to `.env`
 2. Set any one of the supported API keys:
+   - `IFLYTEK_SPARK_API_KEY` (讯飞星辰 Coding Plan, OpenAI-compatible, multi-model)
    - `MINIMAX_API_KEY` (recommended for Chinese market research)
    - `OPENAI_API_KEY` (optionally set `OPENAI_BASE_URL` for proxies)
    - `ANTHROPIC_API_KEY`
    - `DEEPSEEK_API_KEY`
    - `DASHSCOPE_API_KEY`
 3. Run `python -m cogalpha_mvp.cli doctor` to verify
+
+#### iFlytek Spark (讯飞星辰)
+
+[iFlytek Spark Coding Plan](https://www.xfyun.cn/doc/spark/CodingPlan.html) is an
+OpenAI-compatible API that provides access to multiple models (Spark X2, GLM-5.2,
+DeepSeek-V4-Pro, Kimi-K2.6, MiniMax-M2.5, Qwen3.5) through a single endpoint.
+
+```bash
+# .env configuration
+IFLYTEK_SPARK_API_KEY=your_api_key
+IFLYTEK_SPARK_BASE_URL=https://maas-coding-api.cn-huabei-1.xf-yun.com/v2
+IFLYTEK_SPARK_MODEL=astron-code-latest
+```
+
+The API is fully OpenAI-compatible, so it can be used with the `openai` Python
+library by setting the base URL.
 
 If no key is set, the pipeline uses seed factors only and degrades gracefully.
 No functionality is lost for MVP-level research.

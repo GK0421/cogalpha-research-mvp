@@ -65,6 +65,7 @@ def doctor():
     import os
 
     for key in [
+        "IFLYTEK_SPARK_API_KEY",
         "MINIMAX_API_KEY",
         "ANTHROPIC_API_KEY",
         "OPENAI_API_KEY",
