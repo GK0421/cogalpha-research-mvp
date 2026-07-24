@@ -1,8 +1,8 @@
 # Final Audit Report
 
 **Project**: CogAlpha Research MVP  
-**Version**: 0.1.0  
-**Audit Date**: 2026-07-23  
+**Version**: 0.1.1  
+**Audit Date**: 2026-07-24 (v0.1.1 update); 2026-07-23 (v0.1.0 original)  
 **Auditor**: Craft Agent (independent audit mode)
 
 ## Audit Methodology
@@ -161,7 +161,80 @@ The CogAlpha Research MVP v0.1.0 meets the core requirements of the specificatio
 All critical functionality is implemented and tested. The identified issues are
 non-blocking for an MVP release and can be addressed in subsequent iterations.
 
-Final commit: c5bfe4d  
-Final tag: v0.1.0  
-CI: ALL GREEN  
-Tests: 98/98 PASS
+Final commit: 8c95654  
+Final tag: v0.1.1  
+CI: ALL GREEN (3/3 workflows)  
+Tests: 259 total (245 fast + 14 slow), all pass  
+Coverage: 88%+ (threshold 85%)  
+
+---
+
+## v0.1.1 Acceptance Deviation Audit
+
+### Deviation Summary
+
+| ID | Deviation | Status | Detail |
+|----|----------|--------|--------|
+| FATAL-01 | Repo visibility PUBLIC | FIXED | Changed to PRIVATE via `gh repo edit` |
+| MAJOR-01 | Coverage < 85% | FIXED | Restored threshold to 85%, actual 88%+, added 161 tests |
+| MAJOR-02 | No reference PDF | FIXED | Archived 41-page PDF with SHA256 manifest |
+| MAJOR-03 | No real data E2E test | FIXED | 266K rows A-stock data, full pipeline validated |
+| MAJOR-04 | Train/OOS date ranges | DEVIATION APPROVED | See below |
+| MINOR-01 | Only 5 GitHub Issues | FIXED | Created Issue #7 (ESG factor data contract) |
+
+### MAJOR-04: Data Range Deviation (APPROVED)
+
+**Approval ID**: CogAlpha-APPROVAL-001  
+**Approver**: guokai  
+**Approval Date**: 2026-07-24  
+**Approval Document**: [AUTHOR_APPROVAL_DATA_RANGE.md](AUTHOR_APPROVAL_DATA_RANGE.md)
+
+#### Disclosure
+
+| Item | Value |
+|------|-------|
+| Configuration target train range | 2011-01-01 to 2019-12-31 (`default.yaml`) |
+| Configuration target OOS range | 2020-01-01 to 2025-12-31 (`default.yaml`) |
+| Real data test config train range | 2015-01-01 to 2019-12-31 (`real_data_test.yaml`) |
+| Real data test config OOS range | 2020-01-01 to 2025-12-31 (`real_data_test.yaml`) |
+| Data actual earliest date | 2015-01-05 |
+| Data actual latest date | 2025-12-31 |
+| Actual train rows used | 121,896 |
+| Actual OOS rows used | 144,326 |
+| Missing years (2011-2014) | 4 years, ~960 trading days, ~96,000 sampled records |
+| Data loader behavior | Silently truncates to available data intersection |
+| Run manifest | `results/real_data_run_001/run_manifest.json` (includes deviation metadata) |
+
+#### Research Impact
+
+- Training sample length reduced from 9 years to 5 years (44% reduction)
+- Missing 2011-2014 market states (bull-to-bear transition)
+- Factor stability assessment weakened
+- NOT strictly comparable with original spec
+- Does NOT invalidate MVP engineering deliverable
+
+#### Author Approval Text
+
+> 本人批准CogAlpha Research MVP v0.1.1使用当前真实数据的实际覆盖范围：
+> 
+> 实际训练期：2015-01-01-2019-12-31  
+> 实际样本外期：2020-01-01-2025-12-31  
+> 
+> 该区间偏离原始2011-2019训练期设定，原因是当前真实数据不包含2011-2014年。  
+> 本批准仅适用于MVP工程验证，不代表原始长期样本研究设计已经完整复现。  
+> 批准人：郭恺  
+> 批准日期：2026-07-24
+
+### Final Verdict
+
+```
+COGALPHA_RESEARCH_MVP_SUCCESS
+```
+
+All 6 acceptance deviations resolved:
+- 5 deviations FIXED
+- 1 deviation (MAJOR-04) APPROVED by author (CogAlpha-APPROVAL-001)
+- v0.1.0 tag preserved, not modified
+- v0.1.1 tag created and released
+- CI: 3/3 GREEN
+- Coverage: 88%+ (exceeds 85% threshold)
