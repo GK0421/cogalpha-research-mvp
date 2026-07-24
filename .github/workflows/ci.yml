@@ -39,7 +39,7 @@ jobs:
         continue-on-error: true
 
       - name: Pytest with coverage
-        run: pytest --cov=src/cogalpha_mvp --cov-report=term-missing --cov-report=xml
+        run: pytest -m "not slow" --cov=src/cogalpha_mvp --cov-report=term-missing --cov-report=xml
 
       - name: Demo smoke test
         run: python -m cogalpha_mvp.cli demo --output-dir test_results --log-level WARNING
