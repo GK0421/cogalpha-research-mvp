@@ -5,6 +5,40 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.2.0] - 2026-07-24
+
+### Added - CogAlpha Studio (Browser-Based Workbench)
+- **FastAPI backend** with 43 API routes across 8 router modules
+  - Project, Dataset, Factor, Run, Report, Settings, Health, Results endpoints
+  - Pydantic schemas for request/response validation
+  - Unified error handler with structured error responses
+- **SQLAlchemy persistence layer** with SQLite (WAL mode)
+  - 6 ORM models: Project, Dataset, FactorDefinition, ResearchRun, Artifact, AppSetting
+  - 6 repository classes with full CRUD operations
+  - Database migration support
+- **Application services layer** (6 services)
+  - ProjectService, DatasetService, FactorService, RunService, ReportService, SettingsService
+- **Background job system** with persistence and recovery
+  - JobManager with thread-based execution
+  - JobWorker with 11-stage pipeline progress tracking
+  - Interrupted run recovery on startup
+- **React + TypeScript + Vite frontend** (7 pages)
+  - Dashboard, Projects, Project Detail, Factor Lab, Runs, Run Detail, Settings
+  - ECharts integration ready, React Query for data fetching
+  - Dark theme UI with research disclaimer
+- **Docker support** (multi-stage build: Node frontend + Python backend)
+- **Quick start script** (scripts/studio_start.py) with dev/production modes
+- **79 new backend tests** (persistence, services, API, jobs, workspace)
+- Localhost-only binding by default (security)
+- 21 seed factors accessible via API
+- Safe DSL expression validator accessible via API
+- LLM configuration endpoint (6 providers, all optional)
+
+### Changed
+- Version bumped to 0.2.0
+- pyproject.toml: Added sqlalchemy, fastapi, uvicorn, python-multipart, pydantic, httpx dependencies
+- Product name updated to "CogAlpha Studio" (package name remains cogalpha_mvp)
+
 ## [0.1.2] - 2026-07-24
 
 ### Changed
