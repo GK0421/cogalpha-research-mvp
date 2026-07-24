@@ -82,6 +82,7 @@ class ReportGenerator:
         summary = {
             "run_id": self.config.run_id,
             "generated_at": datetime.now().isoformat(),
+            "n_factors": len(quality_results),
             "data_summary": data_summary,
             "quality": {
                 "total": len(quality_results),
