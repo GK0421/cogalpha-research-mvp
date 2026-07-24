@@ -140,9 +140,12 @@ class TestCLIGenerateDemoData:
             main,
             [
                 "generate-demo-data",
-                "--output", output_file,
-                "--start-date", "2022-01-01",
-                "--end-date", "2022-06-30",
+                "--output",
+                output_file,
+                "--start-date",
+                "2022-01-01",
+                "--end-date",
+                "2022-06-30",
             ],
         )
         assert result.exit_code == 0
@@ -267,10 +270,14 @@ class TestCLIRunAll:
             main,
             [
                 "run-all",
-                "--config", str(demo_config),
-                "--output-dir", output_dir,
-                "--seed", "42",
-                "--log-level", "WARNING",
+                "--config",
+                str(demo_config),
+                "--output-dir",
+                output_dir,
+                "--seed",
+                "42",
+                "--log-level",
+                "WARNING",
             ],
         )
         assert result.exit_code == 0
@@ -291,8 +298,10 @@ class TestCLIRunAll:
             main,
             [
                 "run-all",
-                "--output-dir", output_dir,
-                "--log-level", "WARNING",
+                "--output-dir",
+                output_dir,
+                "--log-level",
+                "WARNING",
             ],
         )
         assert result.exit_code == 0
@@ -343,9 +352,7 @@ class TestCLIExitCodes:
         assert result.exit_code == 0
 
     def test_generate_demo_data_exit_zero(self, runner, tmp_path):
-        result = runner.invoke(
-            main, ["generate-demo-data", "--output", str(tmp_path / "d.csv")]
-        )
+        result = runner.invoke(main, ["generate-demo-data", "--output", str(tmp_path / "d.csv")])
         assert result.exit_code == 0
 
     def test_missing_config_returns_nonzero(self, runner):

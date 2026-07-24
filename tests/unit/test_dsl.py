@@ -210,12 +210,18 @@ class TestDSLInterpreterAdvanced:
         for sym in ["A", "B", "C"]:
             prices = 100 * np.cumprod(1 + rng.normal(0, 0.02, n))
             for _i, (date, p) in enumerate(zip(dates, prices, strict=False)):
-                records.append({
-                    "symbol": sym, "trade_date": date,
-                    "open": p * 0.99, "high": p * 1.01, "low": p * 0.98,
-                    "close": p, "volume": int(rng.integers(1e6, 5e7)),
-                    "amount": p * 1e6,
-                })
+                records.append(
+                    {
+                        "symbol": sym,
+                        "trade_date": date,
+                        "open": p * 0.99,
+                        "high": p * 1.01,
+                        "low": p * 0.98,
+                        "close": p,
+                        "volume": int(rng.integers(1e6, 5e7)),
+                        "amount": p * 1e6,
+                    }
+                )
         return pd.DataFrame(records)
 
     def test_binop_add(self, sample_data):
@@ -285,16 +291,12 @@ class TestDSLInterpreterAdvanced:
 
     def test_bool_and(self, sample_data):
         interp = FactorInterpreter()
-        r = interp.evaluate(
-            "where(close > 50 and close < 150, close, 0)", sample_data
-        )
+        r = interp.evaluate("where(close > 50 and close < 150, close, 0)", sample_data)
         assert len(r) == len(sample_data)
 
     def test_bool_or(self, sample_data):
         interp = FactorInterpreter()
-        r = interp.evaluate(
-            "where(close > 200 or close < 50, close, 0)", sample_data
-        )
+        r = interp.evaluate("where(close > 200 or close < 50, close, 0)", sample_data)
         assert len(r) == len(sample_data)
 
     def test_nested_arithmetic(self, sample_data):

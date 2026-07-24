@@ -77,12 +77,18 @@ class TestReportGenerator:
 
         reporter = ReportGenerator(minimal_config, output_dir)
         report_path = reporter.generate_full_report(
-            data_summary={"rows": 100, "n_symbols": 5, "start_date": "2022-01-03",
-                          "end_date": "2022-03-31", "data_fingerprint": "abc123"},
+            data_summary={
+                "rows": 100,
+                "n_symbols": 5,
+                "start_date": "2022-01-03",
+                "end_date": "2022-03-31",
+                "data_fingerprint": "abc123",
+            },
             quality_results=[{"factor_id": "f1", "passed": True, "stage": "", "error": ""}],
             train_metrics={"f1": {"ic_mean": 0.05, "icir": 0.5, "rankic_mean": 0.04}},
-            scoring_results={"f1": {"status": "qualified", "composite_score": 0.7,
-                                    "metrics": {"ic_mean": 0.05}}},
+            scoring_results={
+                "f1": {"status": "qualified", "composite_score": 0.7, "metrics": {"ic_mean": 0.05}}
+            },
             dedup_results={"before": 1, "after": 1, "removed": 0, "removed_ids": []},
             oos_metrics={"f1": {"ic_mean": 0.03, "decay_ratio": 0.4, "sign_consistent": True}},
             portfolio_results={"long_short": {"annual_return": 0.1, "sharpe_ratio": 1.2}},
@@ -100,8 +106,13 @@ class TestReportGenerator:
 
         reporter = ReportGenerator(minimal_config, output_dir)
         report_path = reporter.generate_full_report(
-            data_summary={"rows": 100, "n_symbols": 5, "start_date": "2022-01-03",
-                          "end_date": "2022-03-31", "data_fingerprint": "abc123"},
+            data_summary={
+                "rows": 100,
+                "n_symbols": 5,
+                "start_date": "2022-01-03",
+                "end_date": "2022-03-31",
+                "data_fingerprint": "abc123",
+            },
             quality_results=[],
             train_metrics={},
             scoring_results={},
@@ -120,8 +131,13 @@ class TestReportGenerator:
 
         reporter = ReportGenerator(minimal_config, output_dir)
         reporter.generate_full_report(
-            data_summary={"rows": 100, "n_symbols": 5, "start_date": "2022-01-03",
-                          "end_date": "2022-03-31", "data_fingerprint": "abc123"},
+            data_summary={
+                "rows": 100,
+                "n_symbols": 5,
+                "start_date": "2022-01-03",
+                "end_date": "2022-03-31",
+                "data_fingerprint": "abc123",
+            },
             quality_results=[],
             train_metrics={},
             scoring_results={},

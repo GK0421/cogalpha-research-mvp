@@ -112,13 +112,19 @@ def vibe_json_file(tmp_path):
         {
             "symbol": "BTC",
             "trade_date": "2022-01-03",
-            "open": 40000, "high": 41000, "low": 39000, "close": 40500,
+            "open": 40000,
+            "high": 41000,
+            "low": 39000,
+            "close": 40500,
             "volume": 500,
         },
         {
             "symbol": "BTC",
             "trade_date": "2022-01-04",
-            "open": 40500, "high": 42000, "low": 40000, "close": 41500,
+            "open": 40500,
+            "high": 42000,
+            "low": 40000,
+            "close": 41500,
             "volume": 600,
         },
     ]
@@ -201,7 +207,10 @@ class TestLocalCSVAdapter:
             {
                 "ts_code": ["000001.SZ"],
                 "trade_date": ["2022-01-03"],
-                "open": [10.0], "high": [11.0], "low": [9.0], "close": [10.5],
+                "open": [10.0],
+                "high": [11.0],
+                "low": [9.0],
+                "close": [10.5],
                 "vol": [1000],
             }
         )
@@ -361,8 +370,15 @@ class TestAStockDataExportAdapter:
     def test_load_json(self, tmp_path):
         """Test loading JSON format."""
         data = [
-            {"ts_code": "A", "trade_date": "2022-01-03", "open": 10, "high": 11,
-             "low": 9, "close": 10.5, "vol": 1000},
+            {
+                "ts_code": "A",
+                "trade_date": "2022-01-03",
+                "open": 10,
+                "high": 11,
+                "low": 9,
+                "close": 10.5,
+                "vol": 1000,
+            },
         ]
         path = tmp_path / "data.json"
         path.write_text(json.dumps(data))
@@ -432,7 +448,10 @@ class TestVibeTradingExportAdapter:
             {
                 "symbol": ["ETH"],
                 "trade_date": ["2022-01-03"],
-                "open": [3000], "high": [3100], "low": [2900], "close": [3050],
+                "open": [3000],
+                "high": [3100],
+                "low": [2900],
+                "close": [3050],
                 "volume": [1000],
             }
         )
@@ -497,7 +516,10 @@ class TestAdapterEdgeCases:
             {
                 "symbol": ["A"],
                 "trade_date": ["2022-01-03"],
-                "open": [10.0], "high": [11.0], "low": [9.0], "close": [10.5],
+                "open": [10.0],
+                "high": [11.0],
+                "low": [9.0],
+                "close": [10.5],
                 "volume": [1000],
             }
         )
@@ -533,9 +555,7 @@ class TestSnapshotManifest:
 
     def test_manifest_has_required_fields(self, sample_csv_file, sample_ohlcv_df):
         """Test that manifest contains all required fields."""
-        manifest = create_snapshot_manifest(
-            sample_ohlcv_df, "test_source", str(sample_csv_file)
-        )
+        manifest = create_snapshot_manifest(sample_ohlcv_df, "test_source", str(sample_csv_file))
         assert "source" in manifest
         assert "file_sha256" in manifest
         assert "rows" in manifest
@@ -550,23 +570,17 @@ class TestSnapshotManifest:
         import hashlib
 
         expected_sha = hashlib.sha256(sample_csv_file.read_bytes()).hexdigest()
-        manifest = create_snapshot_manifest(
-            sample_ohlcv_df, "test", str(sample_csv_file)
-        )
+        manifest = create_snapshot_manifest(sample_ohlcv_df, "test", str(sample_csv_file))
         assert manifest["file_sha256"] == expected_sha
 
     def test_manifest_rows_count(self, sample_csv_file, sample_ohlcv_df):
         """Test that row count is correct."""
-        manifest = create_snapshot_manifest(
-            sample_ohlcv_df, "test", str(sample_csv_file)
-        )
+        manifest = create_snapshot_manifest(sample_ohlcv_df, "test", str(sample_csv_file))
         assert manifest["rows"] == 4
 
     def test_manifest_n_symbols(self, sample_csv_file, sample_ohlcv_df):
         """Test that symbol count is correct."""
-        manifest = create_snapshot_manifest(
-            sample_ohlcv_df, "test", str(sample_csv_file)
-        )
+        manifest = create_snapshot_manifest(sample_ohlcv_df, "test", str(sample_csv_file))
         assert manifest["n_symbols"] == 2
 
     def test_manifest_missing_rates(self, sample_csv_file):
@@ -606,9 +620,7 @@ class TestSnapshotManifest:
 
     def test_manifest_nonexistent_file(self, sample_ohlcv_df):
         """Test manifest with nonexistent file (empty SHA)."""
-        manifest = create_snapshot_manifest(
-            sample_ohlcv_df, "test", "nonexistent.csv"
-        )
+        manifest = create_snapshot_manifest(sample_ohlcv_df, "test", "nonexistent.csv")
         assert manifest["file_sha256"] == ""
 
 
@@ -694,9 +706,22 @@ class TestStandardMarketDataValidation:
         modified.loc[0, "volume"] = 999999  # volume affects rows but not fingerprint fields
         # Fingerprint is based on structure (rows, columns, dates, symbols, missing rates)
         # so changing a non-structural value may not change it. Add a row instead.
-        modified = pd.concat([sample_ohlcv_df, pd.DataFrame({
-            "symbol": ["NEW"], "trade_date": pd.to_datetime(["2022-01-05"]),
-            "open": [10], "high": [11], "low": [9], "close": [10.5], "volume": [1000],
-        })], ignore_index=True)
+        modified = pd.concat(
+            [
+                sample_ohlcv_df,
+                pd.DataFrame(
+                    {
+                        "symbol": ["NEW"],
+                        "trade_date": pd.to_datetime(["2022-01-05"]),
+                        "open": [10],
+                        "high": [11],
+                        "low": [9],
+                        "close": [10.5],
+                        "volume": [1000],
+                    }
+                ),
+            ],
+            ignore_index=True,
+        )
         fp2 = StandardMarketData.compute_fingerprint(modified)
         assert fp1 != fp2

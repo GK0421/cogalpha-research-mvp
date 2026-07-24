@@ -121,13 +121,17 @@ class TestFactorRegistry:
 
         dates = pd.bdate_range("2020-01-01", "2020-03-31")
         rng = np.random.default_rng(42)
-        data = pd.DataFrame({
-            "symbol": "TEST",
-            "trade_date": dates,
-            "open": 100, "high": 101, "low": 99,
-            "close": 100 + rng.normal(0, 1, len(dates)).cumsum(),
-            "volume": rng.integers(1e6, 5e7, len(dates)),
-        })
+        data = pd.DataFrame(
+            {
+                "symbol": "TEST",
+                "trade_date": dates,
+                "open": 100,
+                "high": 101,
+                "low": 99,
+                "close": 100 + rng.normal(0, 1, len(dates)).cumsum(),
+                "volume": rng.integers(1e6, 5e7, len(dates)),
+            }
+        )
         result = registry.evaluate_factor("eval_001", data)
         assert len(result) == len(data)
         assert "factor_value" in result.columns
@@ -146,11 +150,17 @@ class TestFactorRegistry:
         for sym in ["A", "B", "C"]:
             prices = 100 + rng.normal(0, 1, len(dates)).cumsum()
             for d, p in zip(dates, prices, strict=False):
-                records.append({
-                    "symbol": sym, "trade_date": d,
-                    "open": p, "high": p * 1.01, "low": p * 0.99,
-                    "close": p, "volume": int(rng.integers(1e6, 5e7)),
-                })
+                records.append(
+                    {
+                        "symbol": sym,
+                        "trade_date": d,
+                        "open": p,
+                        "high": p * 1.01,
+                        "low": p * 0.99,
+                        "close": p,
+                        "volume": int(rng.integers(1e6, 5e7)),
+                    }
+                )
         data = pd.DataFrame(records)
 
         results = registry.evaluate_all(data)
@@ -160,13 +170,19 @@ class TestFactorRegistry:
         """Test getting passed factors."""
         registry = FactorRegistry()
         f1 = FactorMetadata(
-            factor_id="pass_001", name="f1", agent_id="A1", level=1,
+            factor_id="pass_001",
+            name="f1",
+            agent_id="A1",
+            level=1,
             expression="ts_mean(close, 20)",
             description="Test factor for trend identification",
         )
         f1.review_status = "passed"
         f2 = FactorMetadata(
-            factor_id="pass_002", name="f2", agent_id="A2", level=1,
+            factor_id="pass_002",
+            name="f2",
+            agent_id="A2",
+            level=1,
             expression="ts_mean(close, 30)",
             description="Test factor for trend identification variant",
         )
@@ -182,12 +198,18 @@ class TestFactorRegistry:
         """Test structural dedup removes duplicates."""
         registry = FactorRegistry()
         f1 = FactorMetadata(
-            factor_id="sd_001", name="f1", agent_id="A1", level=1,
+            factor_id="sd_001",
+            name="f1",
+            agent_id="A1",
+            level=1,
             expression="ts_mean(close, 20)",
             description="Test factor for trend identification",
         )
         f2 = FactorMetadata(
-            factor_id="sd_002", name="f2", agent_id="A2", level=2,
+            factor_id="sd_002",
+            name="f2",
+            agent_id="A2",
+            level=2,
             expression="ts_mean(close, 20)",  # Same hash
             description="Another test factor for trend identification",
         )

@@ -29,15 +29,17 @@ def sample_market_data():
     for sym in ["A", "B", "C", "D", "E"]:
         prices = 100 * np.cumprod(1 + rng.normal(0, 0.02, n))
         for i, date in enumerate(dates):
-            records.append({
-                "symbol": sym,
-                "trade_date": date,
-                "open": prices[i] * 0.99,
-                "high": prices[i] * 1.01,
-                "low": prices[i] * 0.98,
-                "close": prices[i],
-                "volume": int(rng.integers(1e6, 5e7)),
-            })
+            records.append(
+                {
+                    "symbol": sym,
+                    "trade_date": date,
+                    "open": prices[i] * 0.99,
+                    "high": prices[i] * 1.01,
+                    "low": prices[i] * 0.98,
+                    "close": prices[i],
+                    "volume": int(rng.integers(1e6, 5e7)),
+                }
+            )
     return pd.DataFrame(records)
 
 
@@ -80,7 +82,9 @@ class TestBacktestEngine:
         result = engine.run(empty_factor, empty_market)
         assert result.annual_return == 0.0
 
-    def test_portfolio_result_to_dict(self, portfolio_config, sample_factor_values, sample_market_data):
+    def test_portfolio_result_to_dict(
+        self, portfolio_config, sample_factor_values, sample_market_data
+    ):
         """Test that to_dict includes disclaimer."""
         engine = BacktestEngine(portfolio_config)
         result = engine.run(sample_factor_values, sample_market_data, strategy="long_short")
@@ -113,7 +117,9 @@ class TestBacktestEngine:
         result = engine.run(sample_factor_values, sample_market_data, strategy="long_short")
         assert isinstance(result.turnover, float)
 
-    def test_transaction_cost_applied(self, portfolio_config, sample_factor_values, sample_market_data):
+    def test_transaction_cost_applied(
+        self, portfolio_config, sample_factor_values, sample_market_data
+    ):
         """Test that transaction costs are applied."""
         engine = BacktestEngine(portfolio_config)
         result = engine.run(sample_factor_values, sample_market_data, strategy="long_short")

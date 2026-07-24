@@ -219,12 +219,17 @@ class TestQualityPipelineAdvanced:
         dates = pd.bdate_range("2020-01-01", "2020-01-10")
         rng = np.random.default_rng(42)
         prices = 100 * np.cumprod(1 + rng.normal(0, 0.02, len(dates)))
-        data = pd.DataFrame({
-            "symbol": "A",
-            "trade_date": dates,
-            "open": prices, "high": prices * 1.01, "low": prices * 0.99,
-            "close": prices, "volume": rng.integers(1e6, 5e7, len(dates)),
-        })
+        data = pd.DataFrame(
+            {
+                "symbol": "A",
+                "trade_date": dates,
+                "open": prices,
+                "high": prices * 1.01,
+                "low": prices * 0.99,
+                "close": prices,
+                "volume": rng.integers(1e6, 5e7, len(dates)),
+            }
+        )
         factor = FactorMetadata(
             factor_id="test_few_dates",
             name="test_few_dates",

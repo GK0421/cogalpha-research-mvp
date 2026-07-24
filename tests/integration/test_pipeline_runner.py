@@ -204,7 +204,9 @@ class TestPipelineRunnerIntegration:
         runner = PipelineRunner(minimal_config)
         runner.run_all(use_synthetic=True)
 
-        quality_path = Path(minimal_config.output_dir) / "test_run_001" / "quality" / "factor_quality.csv"
+        quality_path = (
+            Path(minimal_config.output_dir) / "test_run_001" / "quality" / "factor_quality.csv"
+        )
         df = pd.read_csv(str(quality_path))
         assert len(df) > 0
         assert "passed" in df.columns

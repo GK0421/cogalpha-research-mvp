@@ -112,10 +112,12 @@ class TestFactorScorer:
         """Test scoring all factors at once."""
         scorer = FactorScorer(FactorConfig())
         all_metrics = {
-            "good": make_metrics(factor_id="good", ic_mean=0.02, icir=0.2,
-                                  rankic_mean=0.02, rankicir=0.2),
-            "bad": make_metrics(factor_id="bad", ic_mean=0.001, icir=0.01,
-                                 rankic_mean=0.001, rankicir=0.01),
+            "good": make_metrics(
+                factor_id="good", ic_mean=0.02, icir=0.2, rankic_mean=0.02, rankicir=0.2
+            ),
+            "bad": make_metrics(
+                factor_id="bad", ic_mean=0.001, icir=0.01, rankic_mean=0.001, rankicir=0.01
+            ),
         }
         results = scorer.score_all(all_metrics)
         assert len(results) == 2
@@ -134,8 +136,11 @@ class TestFactorScorer:
         """Test that elite thresholds work correctly."""
         scorer = FactorScorer(FactorConfig())
         elite_m = make_metrics(
-            factor_id="elite", ic_mean=0.02, icir=0.15,
-            rankic_mean=0.02, rankicir=0.15,
+            factor_id="elite",
+            ic_mean=0.02,
+            icir=0.15,
+            rankic_mean=0.02,
+            rankicir=0.15,
         )
         all_m = [elite_m, make_metrics(factor_id="weak")]
         score = scorer.compute_composite_score(elite_m, all_m)
@@ -147,8 +152,11 @@ class TestFactorScorer:
         """Test that qualified thresholds work correctly."""
         scorer = FactorScorer(FactorConfig())
         qual_m = make_metrics(
-            factor_id="qual", ic_mean=0.008, icir=0.06,
-            rankic_mean=0.008, rankicir=0.06,
+            factor_id="qual",
+            ic_mean=0.008,
+            icir=0.06,
+            rankic_mean=0.008,
+            rankicir=0.06,
         )
         all_m = [qual_m, make_metrics(factor_id="weak")]
         score = scorer.compute_composite_score(qual_m, all_m)
