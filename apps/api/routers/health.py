@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from fastapi import APIRouter, Depends
+
 from cogalpha_mvp.product.version import PRODUCT_NAME, PRODUCT_SUBTITLE_EN, PRODUCT_VERSION
 
 from ..dependencies import get_workspace
