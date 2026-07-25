@@ -43,7 +43,7 @@ describe('ProjectsPage', () => {
   it('renders projects header', () => {
     vi.mocked(projectsApi.list).mockReturnValue(new Promise(() => {}))
     renderPage()
-    expect(screen.getByText(/Projects/i)).toBeInTheDocument()
+    expect(screen.getByText('Projects', { selector: 'h1' })).toBeInTheDocument()
   })
 
   it('shows empty state when no projects', async () => {

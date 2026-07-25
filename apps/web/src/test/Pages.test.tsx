@@ -50,7 +50,7 @@ describe('RunsPage', () => {
 
   it('renders runs header', () => {
     renderWithProviders(<RunsPage />)
-    expect(screen.getByText(/Research Runs/i)).toBeInTheDocument()
+    expect(screen.getByText('Research Runs', { selector: 'h1' })).toBeInTheDocument()
   })
 })
 
