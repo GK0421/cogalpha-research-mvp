@@ -3,15 +3,24 @@ import { render, screen, waitFor } from '@testing-library/react'
 import { MemoryRouter } from 'react-router-dom'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { ProjectsPage } from '../pages/ProjectsPage'
-import projectsApi from '../api'
 
-vi.mock('../api', () => ({
-  default: {
+// Mock the named exports from api module
+vi.mock('@/api', () => ({
+  projectsApi: {
     list: vi.fn(),
     create: vi.fn(),
     delete: vi.fn(),
   },
+  factorsApi: { list: vi.fn(), validate: vi.fn(), seed: vi.fn() },
+  datasetsApi: { list: vi.fn(), upload: vi.fn(), delete: vi.fn() },
+  runsApi: { list: vi.fn(), get: vi.fn(), create: vi.fn() },
+  reportsApi: { list: vi.fn(), download: vi.fn() },
+  settingsApi: { get: vi.fn(), update: vi.fn() },
+  healthApi: { check: vi.fn() },
 }))
+
+// Import after mock
+import { projectsApi } from '@/api'
 
 function renderPage() {
   const queryClient = new QueryClient({

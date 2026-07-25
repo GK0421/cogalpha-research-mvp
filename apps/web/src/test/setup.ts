@@ -30,4 +30,4 @@ Object.defineProperty(window, 'IntersectionObserver', {
 })
 
 // Mock scrollTo
-window.scrollTo = vi.fn()
+window.scrollTo = (() => {}) as typeof window.scrollTo
