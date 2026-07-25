@@ -15,7 +15,7 @@ services:
       - COGALPHA_HOME=/home/cogalpha/.cogalpha
       - COGALPHA_TELEMETRY_ENABLED=false
     healthcheck:
-      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8765/api/health')"]
+      test: ["CMD", "curl", "-sf", "http://127.0.0.1:8765/api/v1/health"]
       interval: 10s
       timeout: 5s
       retries: 3

@@ -10,7 +10,7 @@ LABEL org.opencontainers.image.description="Local-first quantitative factor rese
 
 # Install system dependencies
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    gcc g++ && \
+    gcc g++ curl && \
     rm -rf /var/lib/apt/lists/*
 
 # Create non-root user
@@ -37,6 +37,6 @@ ENV COGALPHA_HOME=/home/cogalpha/.cogalpha
 EXPOSE 8765
 
 HEALTHCHECK --interval=10s --timeout=5s --retries=3 --start-period=10s \
-    CMD python -c "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8765/api/health')" || exit 1
+    CMD curl -sf http://127.0.0.1:8765/api/v1/health || exit 1
 
-CMD ["python", "-m", "uvicorn", "apps.api.server:app", "--host", "127.0.0.1", "--port", "8765"]
+CMD ["python", "-m", "uvicorn", "apps.api.server:app", "--host", "0.0.0.0", "--port", "8765"]
