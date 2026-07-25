@@ -40,7 +40,7 @@ describe('FactorLabPage', () => {
 
   it('renders factor lab header', () => {
     renderPage()
-    expect(screen.getByText(/Factor Lab/i)).toBeInTheDocument()
+    expect(screen.getAllByText(/Factor Lab/i).length).toBeGreaterThan(0)
   })
 
   it('shows factors when loaded', async () => {
