@@ -46,7 +46,7 @@ describe('FactorLabPage', () => {
 
   it('shows factors when loaded', async () => {
     vi.mocked(factorsApi.list).mockResolvedValue([
-      { id: 'f1', name: 'momentum', expression: 'ts_rank(close, 20)', origin: 'seed' },
+      { id: 'f1', name: 'momentum', expression: 'ts_rank(close, 20)', origin: 'seed', project_id: 'p1', agent_id: 'L1-001', level: 1, direction: 1, description: 'momentum', expression_hash: 'h1', validation_status: 'valid', created_at: '2024-01-01' } as any,
     ])
     renderPage()
     await waitFor(() => {

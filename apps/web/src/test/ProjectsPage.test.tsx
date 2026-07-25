@@ -56,8 +56,8 @@ describe('ProjectsPage', () => {
 
   it('shows project list', async () => {
     vi.mocked(projectsApi.list).mockResolvedValue([
-      { id: 'p1', name: 'Test Project', created_at: '2024-01-01' },
-    ])
+      { id: 'p1', name: 'Test Project', description: '', market: 'A-stock', status: 'active', default_config: {}, created_at: '2024-01-01', updated_at: '2024-01-01' },
+    ] as any)
     renderPage()
     await waitFor(() => {
       expect(screen.getByText('Test Project')).toBeInTheDocument()
