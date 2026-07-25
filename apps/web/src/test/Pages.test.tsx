@@ -8,31 +8,29 @@ import { SettingsPage } from '../pages/SettingsPage'
 
 vi.mock('@/api', () => ({
   projectsApi: {
-    list: vi.fn(),
-    create: vi.fn(),
-    delete: vi.fn(),
+    list: vi.fn().mockResolvedValue([]),
+    create: vi.fn().mockResolvedValue({}),
+    delete: vi.fn().mockResolvedValue(undefined),
   },
-  factorsApi: { list: vi.fn(), validate: vi.fn(), seed: vi.fn() },
-  datasetsApi: { list: vi.fn(), upload: vi.fn(), delete: vi.fn() },
+  factorsApi: { list: vi.fn().mockResolvedValue([]), validate: vi.fn().mockResolvedValue({}), seed: vi.fn().mockResolvedValue({}) },
+  datasetsApi: { list: vi.fn().mockResolvedValue([]), upload: vi.fn().mockResolvedValue({}), delete: vi.fn().mockResolvedValue(undefined) },
   runsApi: {
-    list: vi.fn(),
-    get: vi.fn(),
-    create: vi.fn(),
+    list: vi.fn().mockResolvedValue([]),
+    get: vi.fn().mockResolvedValue({}),
+    create: vi.fn().mockResolvedValue({}),
   },
-  reportsApi: { list: vi.fn(), download: vi.fn() },
+  reportsApi: { list: vi.fn().mockResolvedValue([]), download: vi.fn().mockResolvedValue({}) },
   settingsApi: {
-    get: vi.fn(),
-    getAll: vi.fn(),
-    update: vi.fn(),
-    llm: vi.fn(),
+    get: vi.fn().mockResolvedValue({}),
+    getAll: vi.fn().mockResolvedValue({}),
+    update: vi.fn().mockResolvedValue({}),
+    llm: vi.fn().mockResolvedValue({}),
   },
   healthApi: {
-    check: vi.fn(),
-    capabilities: vi.fn(),
+    check: vi.fn().mockResolvedValue({}),
+    capabilities: vi.fn().mockResolvedValue({}),
   },
 }))
-
-import { runsApi, settingsApi, healthApi, projectsApi } from '@/api'
 
 function renderWithProviders(ui: React.ReactElement) {
   const queryClient = new QueryClient({
@@ -51,7 +49,6 @@ describe('RunsPage', () => {
   })
 
   it('renders runs header', () => {
-    vi.mocked(projectsApi.list).mockReturnValue(new Promise(() => {}))
     renderWithProviders(<RunsPage />)
     expect(screen.getByText(/Runs/i)).toBeInTheDocument()
   })
@@ -63,9 +60,6 @@ describe('DashboardPage', () => {
   })
 
   it('renders dashboard title', () => {
-    vi.mocked(healthApi.check).mockReturnValue(new Promise(() => {}))
-    vi.mocked(healthApi.capabilities).mockReturnValue(new Promise(() => {}))
-    vi.mocked(projectsApi.list).mockReturnValue(new Promise(() => {}))
     renderWithProviders(<DashboardPage />)
     expect(screen.getByText(/Dashboard/i)).toBeInTheDocument()
   })
@@ -77,8 +71,6 @@ describe('SettingsPage', () => {
   })
 
   it('renders settings header', () => {
-    vi.mocked(settingsApi.getAll).mockReturnValue(new Promise(() => {}))
-    vi.mocked(settingsApi.llm).mockReturnValue(new Promise(() => {}))
     renderWithProviders(<SettingsPage />)
     expect(screen.getByText(/Settings/i)).toBeInTheDocument()
   })

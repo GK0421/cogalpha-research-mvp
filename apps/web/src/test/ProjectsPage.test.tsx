@@ -7,16 +7,16 @@ import { ProjectsPage } from '../pages/ProjectsPage'
 // Mock the named exports from api module
 vi.mock('@/api', () => ({
   projectsApi: {
-    list: vi.fn(),
-    create: vi.fn(),
-    delete: vi.fn(),
+    list: vi.fn().mockResolvedValue([]),
+    create: vi.fn().mockResolvedValue({}),
+    delete: vi.fn().mockResolvedValue(undefined),
   },
-  factorsApi: { list: vi.fn(), validate: vi.fn(), seed: vi.fn() },
-  datasetsApi: { list: vi.fn(), upload: vi.fn(), delete: vi.fn() },
-  runsApi: { list: vi.fn(), get: vi.fn(), create: vi.fn() },
-  reportsApi: { list: vi.fn(), download: vi.fn() },
-  settingsApi: { get: vi.fn(), update: vi.fn() },
-  healthApi: { check: vi.fn() },
+  factorsApi: { list: vi.fn().mockResolvedValue([]), validate: vi.fn().mockResolvedValue({}), seed: vi.fn().mockResolvedValue({}) },
+  datasetsApi: { list: vi.fn().mockResolvedValue([]), upload: vi.fn().mockResolvedValue({}), delete: vi.fn().mockResolvedValue(undefined) },
+  runsApi: { list: vi.fn().mockResolvedValue([]), get: vi.fn().mockResolvedValue({}), create: vi.fn().mockResolvedValue({}) },
+  reportsApi: { list: vi.fn().mockResolvedValue([]), download: vi.fn().mockResolvedValue({}) },
+  settingsApi: { get: vi.fn().mockResolvedValue({}), getAll: vi.fn().mockResolvedValue({}), update: vi.fn().mockResolvedValue({}), llm: vi.fn().mockResolvedValue({}) },
+  healthApi: { check: vi.fn().mockResolvedValue({}), capabilities: vi.fn().mockResolvedValue({}) },
 }))
 
 // Import after mock
