@@ -6,7 +6,7 @@ export default defineConfig({
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 1 : 0,
   workers: process.env.CI ? 1 : undefined,
-  reporter: 'html',
+  reporter: 'line',
   use: {
     baseURL: 'http://127.0.0.1:8765',
     trace: 'on-first-retry',
@@ -18,9 +18,9 @@ export default defineConfig({
     },
   ],
   webServer: {
-    command: 'python -m uvicorn apps.api.server:app --host 127.0.0.1 --port 8765',
-    url: 'http://127.0.0.1:8765/api/health',
-    reuseExistingServer: !process.env.CI,
+    command: 'cd ../.. && python -m uvicorn apps.api.server:app --host 127.0.0.1 --port 8765',
+    url: 'http://127.0.0.1:8765/api/v1/health',
+    reuseExistingServer: true,
     timeout: 30000,
   },
 })

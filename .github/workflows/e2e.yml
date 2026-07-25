@@ -57,7 +57,9 @@ jobs:
 
       - name: Run E2E tests
         working-directory: apps/web
-        run: npm run test:e2e
+        env:
+          CI: 'true'
+        run: npx playwright test --reporter=line
 
       - name: Upload E2E artifacts
         if: failure()
