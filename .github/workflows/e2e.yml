@@ -43,13 +43,13 @@ jobs:
 
       - name: Build frontend
         working-directory: apps/web
-        run: npm run build
+        run: npx vite build
 
       - name: Start backend
         run: |
           python -m uvicorn apps.api.server:app --host 127.0.0.1 --port 8765 &
           sleep 5
-          curl -s http://127.0.0.1:8765/api/health | grep -q "ok"
+          curl -s http://127.0.0.1:8765/api/v1/health | grep -q "ok"
 
       - name: Install Playwright
         working-directory: apps/web
